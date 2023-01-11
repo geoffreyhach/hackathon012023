@@ -2,10 +2,12 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 import Recherche from "../components/Recherche";
 import { Stack } from "@mui/material";
+import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
+const ENDPOINT = process.env.DB_HOST;
 
-export default function Home() {
+export default function Home({ fleet }) {
   return (
     <>
       <Head>
@@ -25,8 +27,18 @@ export default function Home() {
             "linear-gradient(to bottom, #ff6f6f, #ff92b0, #fbbae0, #f4dff9, #ffffff)",
         }}
       >
-        <Recherche />
+        <Recherche fleet={fleet} />
       </Stack>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const res = await axios.get(`${ENDPOINT}/api/cars/`);
+  const fleet = res.data.Items;
+  return {
+    props: {
+      fleet,
+    },
+  };
 }
