@@ -4,8 +4,12 @@ Projet de Cédric, Yann et Geoffrey pour le Hackathon de la wild code school/AWS
 
 ## Get all cars
 
-Get: /api/car
+Get: /api/cars
 
-## Get on car
+## Get one car
 
-Get : /api/car/:id
+Get: /api/cars/:id
+
+## Post car
+
+Post: /api/cars
