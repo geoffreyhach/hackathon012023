@@ -4,17 +4,8 @@ import PersonPinCircleTwoToneIcon from "@mui/icons-material/PersonPinCircleTwoTo
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import axios from "axios";
 
-function Mapbox() {
-    const [fleet, setFleet] = useState();
+function Mapbox({ fleet }) {
     const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const fleet = await axios.get("http://localhost:3000/api/cars/");
-            setFleet(fleet.data.Items);
-        };
-        fetchData();
-    }, []);
 
     return (
         <Map
