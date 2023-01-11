@@ -15,16 +15,26 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
+    "@mui/x-data-grid": "^5.17.18",
     "@next/font": "13.1.1",
     "aws-sdk": "^2.1292.0",
     "axios": "^1.2.2",
+    "dayjs": "^1.11.7",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
+<<<<<<< HEAD
+    "linechart": "^2.0.0",
+    "next": "13.1.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "recharts": "^2.2.0",
+=======
     "mapbox-gl": "^2.12.0",
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-map-gl": "^7.0.21",
+>>>>>>> dev
     "swr": "^2.0.0"
   }
 }
