@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Map, { Marker } from "react-map-gl";
-import { Box } from "@mui/system";
 import PersonPinCircleTwoToneIcon from "@mui/icons-material/PersonPinCircleTwoTone";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
-
-const fleet = [
-    [48.578374, 7.756802],
-    [48.586885, 7.753119],
-    [48.581565, 7.738541],
-    [48.593846, 7.758796],
-];
+import axios from "axios";
 
 function Mapbox() {
+    const [fleet, setFleet] = useState();
     const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const fleet = await axios.get("http://localhost:3000/api/cars/");
+            setFleet(fleet.data.Items);
+        };
+        fetchData();
+    }, []);
+
     return (
         <Map
             mapboxAccessToken={accessToken}
@@ -32,17 +35,19 @@ function Mapbox() {
                 <PersonPinCircleTwoToneIcon />
             </Marker>
 
-            {fleet.map((car) => {
-                return (
-                    <Marker
-                        latitude={car[0]}
-                        longitude={car[1]}
-                        anchor={"center"}
-                    >
-                        <DirectionsCarFilledIcon />
-                    </Marker>
-                );
-            })}
+            {fleet &&
+                fleet.map((car) => {
+                    return (
+                        <Marker
+                            key={car.id}
+                            latitude={car.geoloc[0]}
+                            longitude={car.geoloc[1]}
+                            anchor={"center"}
+                        >
+                            <DirectionsCarFilledIcon />
+                        </Marker>
+                    );
+                })}
         </Map>
     );
 }
