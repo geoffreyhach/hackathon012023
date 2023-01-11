@@ -1,8 +1,7 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
-import Mapbox from "../components/Mapbox";
+import Recherche from "../components/Recherche";
+import { Stack } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +14,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Mapbox />
-      </main>
+      <Stack
+        sx={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundImage:
+            "linear-gradient(to bottom, #ff6f6f, #ff92b0, #fbbae0, #f4dff9, #ffffff)",
+        }}
+      >
+        <Recherche />
+      </Stack>
     </>
   );
 }
