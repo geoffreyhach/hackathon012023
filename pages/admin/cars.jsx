@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   DataGrid,
@@ -6,9 +6,12 @@ import {
   GridToolbarExport,
 } from "@mui/x-data-grid";
 import { Container, Typography, Box, Button } from "@mui/material";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
 import CachedIcon from "@mui/icons-material/Cached";
 import Dashboard from "../../components/admin/nav/Dashboard";
 import Head from "next/head";
+import NewCar from "../../components/admin/dashboard/forms/NewCar";
 
 function CustomToolbar() {
   return (
@@ -20,48 +23,20 @@ function CustomToolbar() {
         Actualiser
       </Button>
       <GridToolbarExport />
+      <Fab size="small" color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
     </GridToolbarContainer>
   );
 }
 
-export default function Cars() {
-  const dataCars = {
-    id: 1,
-    name: "PEUGEOT 208",
-    category: "Citadine",
-    dispo: "",
-    image:
-      "https://www.peugeot.fr/content/dam/peugeot/france/b2c/odm/2022/decembre-2022/offre-hiver/tranche-odm-hp/PEUGEOT_e208_800x600.jpg?imwidth:1920",
-    priceperday: "55",
-    nbpassengers: "5",
-    nbdoors: "3",
-    km: "25000",
-    consumption: "1.1",
-    transmission: "auto",
-    longitude: "55",
-    lattitude: "47",
-  };
-
-  const [cars, setCars] = useState([dataCars]);
-
+export default function Cars({ fleet }) {
   const [checkboxSelection, setCheckboxSelection] = useState(true);
 
   const currencyFormatter = new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: "EUR",
   });
-
-  // useEffect(() => {
-  // axios;
-  // .get("http://")
-  // .then((res) => {
-  //   // setCars(res.data);
-  //   console.log(res.data);
-  // })
-  // .catch((error) => console.error(error));
-  // setCars(dataCars);
-  // setCars(dataCars);
-  // }, []);
 
   const title = "Véhicules";
 
@@ -72,7 +47,6 @@ export default function Cars() {
       </Head>
       <Box sx={{ display: "flex" }}>
         <Dashboard title={title} />
-
         <Container style={{ marginTop: "2rem" }}>
           <Typography variant="h4" gutterBottom>
             Véhicules
@@ -82,8 +56,8 @@ export default function Cars() {
             style={{ height: "90vh", width: "100%", backgroundColor: "#fff" }}
           >
             <DataGrid
-              rows={cars}
-              loading={!cars}
+              rows={fleet}
+              loading={!fleet}
               components={{
                 Toolbar: CustomToolbar,
               }}
@@ -161,24 +135,31 @@ export default function Cars() {
                   flex: 0.22,
                 },
                 {
-                  field: "longitude",
-                  headerName: "Longitude",
+                  field: "geoloc",
+                  headerName: "Geolocalisation",
                   editable: true,
                   align: "center",
-                  flex: 0.16,
-                },
-                {
-                  field: "attitude",
-                  headerName: "Lattitude",
-                  editable: true,
-                  align: "center",
-                  flex: 0.16,
+                  flex: 0.35,
                 },
               ]}
             />
           </div>
         </Container>
+        {/* {openNew &&  */}
+        <NewCar />
+        {/* } */}
       </Box>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const dbHost = process.env.DB_HOST;
+  const res = await axios.get(`http://localhost:3000/api/cars`);
+  const fleet = res.data.Items;
+  return {
+    props: {
+      fleet,
+    },
+  };
 }
