@@ -3,10 +3,12 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import Mapbox from "../components/Mapbox";
+import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
+const ENDPOINT = process.env.DB_HOST;
 
-export default function Home() {
+export default function Home({ fleet }) {
     return (
         <>
             <Head>
@@ -22,8 +24,18 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                <Mapbox />
+                <Mapbox fleet={fleet} />
             </main>
         </>
     );
+}
+
+export async function getStaticProps() {
+    const res = await axios.get(`${ENDPOINT}/api/cars/`);
+    const fleet = res.data.Items;
+    return {
+        props: {
+            fleet,
+        },
+    };
 }
