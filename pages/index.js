@@ -3,6 +3,7 @@ import { Inter } from "@next/font/google";
 import Recherche from "../components/Recherche";
 import { Stack } from "@mui/material";
 import axios from "axios";
+import Header from "../components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 const ENDPOINT = process.env.DB_HOST;
@@ -24,9 +25,10 @@ export default function Home({ fleet }) {
           justifyContent: "center",
           alignItems: "center",
           backgroundImage:
-            "linear-gradient(to bottom, #ff6f6f, #ff92b0, #fbbae0, #f4dff9, #ffffff)",
+            "linear-gradient(to right top, #eb5f07, #ed5326, #ed4939, #ea4049, #e43b58)",
         }}
       >
+        <Header />
         <Recherche fleet={fleet} />
       </Stack>
     </>
