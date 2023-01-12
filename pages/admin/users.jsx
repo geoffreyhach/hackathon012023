@@ -118,3 +118,45 @@ export default function Users() {
     </>
   );
 }
+
+// {
+//   "id": {
+//     "S": ""
+//   },
+//   "brand": {
+//     "S": ""
+//   },
+//   "model": {
+//     "S": ""
+//   },
+//   "category": {
+//     "S": ""
+//   },
+//   "licensePlate": {
+//     "S": ""
+//   },
+//   "image": {
+//     "S": ""
+//   },
+//   "priceperday": {
+//     "S": ""
+//   },
+//   "passengers": {
+//     "S": ""
+//   },
+//   "doors": {
+//     "S": ""
+//   },
+//   "km": {
+//     "N": ""
+//   },
+//   "consumption": {
+//     "S": ""
+//   },
+//   "transmission": {
+//     "S": ""
+//   },
+//   "location": {
+//     "L": []
+//   }
+// }

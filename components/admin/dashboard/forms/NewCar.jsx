@@ -54,16 +54,28 @@ const NewCar = () => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const carData = {
+    brand: `${values.brand}`,
+    model: `${values.model}`,
+    category: `${values.category}`,
+    licensePlate: `${values.licensePlate}`,
+    image: `${values.image}`,
+    priceperday: `${values.priceperday}`,
+    passengers: `${values.passengers}`,
+    doors: `${values.doors}`,
+    km: `${values.km}`,
+    consumption: `${values.consumption}`,
+    transmission: `${values.transmission}`,
+    geoloc: [values.location],
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:5000/auth/signup", userData)
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.data.token);
-        console.log(response.data);
-      });
+    axios.post("http://localhost:3000/api/cars", carData).then((response) => {
+      console.log(response.status);
+      console.log(response.data);
+    });
   };
 
   return (
@@ -111,6 +123,7 @@ const NewCar = () => {
                 brand={values.brand}
                 handleChange={handleChange}
               />
+              {console.log(values.model)}
 
               <Category
                 category={values.category}
