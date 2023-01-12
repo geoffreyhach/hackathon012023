@@ -34,7 +34,7 @@ export default function Home({ fleet }) {
 }
 
 export async function getStaticProps() {
-  const res = await axios.get(`${ENDPOINT}/api/cars/`);
+  const res = await axios.get(`${ENDPOINT}/api/cars`);
   const fleet = res.data.Items;
   return {
     props: {
