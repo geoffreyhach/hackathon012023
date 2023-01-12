@@ -7,6 +7,12 @@ import axios from "axios";
 function Mapbox({ fleet, setHitmarker, hitmarker }) {
     const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
     const [marker, setMarker] = useState(undefined);
+    const [geoloc, setGeoloc] = useState();
+    const [viewState, setViewState] = useState({
+        latitude: 48.582033,
+        longitude: 7.750229,
+        zoom: 12,
+    });
 
     function MarkerClick(car) {
         if (marker !== hitmarker && marker !== undefined) {
@@ -20,14 +26,29 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
         setHitmarker(marker);
     }, [marker]);
 
+    const handleGeoloc = (e) => {
+        setGeoloc(e);
+    };
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((e) => handleGeoloc(e));
+    }, []);
+    console.log(geoloc);
+
+    useEffect(() => {
+        if (geoloc)
+            setViewState({
+                latitude: geoloc.coords.latitude,
+                longitude: geoloc.coords.longitude,
+                zoom: 12,
+            });
+    }, [geoloc]);
+
     return (
         <Map
+            {...viewState}
             mapboxAccessToken={accessToken}
-            initialViewState={{
-                latitude: 48.58186963621235,
-                longitude: 7.750978575153635,
-                zoom: 12,
-            }}
+            initialViewState={viewState}
             style={{
                 width: "100%",
                 height: "100vh",
@@ -36,8 +57,8 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
             mapStyle="mapbox://styles/mapbox/streets-v9"
         >
             <Marker
-                latitude={48.58186963621235}
-                longitude={7.750978575153635}
+                latitude={viewState.latitude}
+                longitude={viewState.longitude}
                 anchor={"center"}
             >
                 <PersonPinCircleTwoToneIcon />
