@@ -1,12 +1,14 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
-import Mapbox from "../components/Mapbox";
+import Recherche from "../components/Recherche";
+import { Stack } from "@mui/material";
+import axios from "axios";
+import Header from "../components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
+const ENDPOINT = process.env.DB_HOST;
 
-export default function Home() {
+export default function Home({ fleet }) {
   return (
     <>
       <Head>
@@ -15,9 +17,30 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Mapbox />
-      </main>
+      <Stack
+        sx={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundImage:
+            "linear-gradient(to right top, #eb5f07, #ed5326, #ed4939, #ea4049, #e43b58)",
+        }}
+      >
+        <Header />
+        <Recherche fleet={fleet} />
+      </Stack>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const res = await axios.get(`${ENDPOINT}/api/cars/`);
+  const fleet = res.data.Items;
+  return {
+    props: {
+      fleet,
+    },
+  };
 }
