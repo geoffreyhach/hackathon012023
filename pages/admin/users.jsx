@@ -70,14 +70,14 @@ export default function Users() {
               columns={[
                 { field: "id", headerName: "ID", editable: true, flex: 0.1 },
                 {
-                  field: "lastname",
-                  headerName: "Nom",
+                  field: "firstname",
+                  headerName: "Prénom",
                   editable: true,
                   flex: 1,
                 },
                 {
-                  field: "firstname",
-                  headerName: "Prénom",
+                  field: "lastname",
+                  headerName: "Nom",
                   editable: true,
                   flex: 1,
                 },
