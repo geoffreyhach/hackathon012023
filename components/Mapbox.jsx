@@ -33,7 +33,6 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((e) => handleGeoloc(e));
     }, []);
-    console.log(geoloc);
 
     useEffect(() => {
         if (geoloc)
@@ -49,6 +48,7 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
             {...viewState}
             mapboxAccessToken={accessToken}
             initialViewState={viewState}
+            onMove={(evt) => setViewState(evt.viewState)}
             style={{
                 width: "100%",
                 height: "100vh",
@@ -57,8 +57,8 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
             mapStyle="mapbox://styles/mapbox/streets-v9"
         >
             <Marker
-                latitude={viewState.latitude}
-                longitude={viewState.longitude}
+                latitude={geoloc?.coords.latitude || 48.582033}
+                longitude={geoloc?.coords.longitude || 7.750229}
                 anchor={"center"}
             >
                 <PersonPinCircleTwoToneIcon />
