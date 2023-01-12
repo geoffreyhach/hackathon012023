@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import PersonIcon from "@mui/icons-material/Person";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
@@ -24,7 +25,12 @@ function Login() {
                                 src={session.user.image}
                                 sx={{ width: 24, height: 24, marginRight: 2 }}
                             />{" "}
-                            Mon compte
+                            {!session?.user.isAdmin && (
+                                <Link href="admin">Mon compte</Link>
+                            )}
+                            {session?.user.isAdmin && (
+                                <Link href="admin">Espace admin</Link>
+                            )}
                         </Button>
                     </Stack>
                 </Stack>
