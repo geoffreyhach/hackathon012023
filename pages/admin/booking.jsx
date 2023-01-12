@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   DataGrid,
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Typography, Box, Button, Stack } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import Dashboard from "../../components/admin/nav/Dashboard";
 import Head from "next/head";
-import dayjs from "dayjs";
 
 function CustomToolbar() {
   return (
@@ -25,19 +24,14 @@ function CustomToolbar() {
   );
 }
 
-export default function Users() {
-  const [users, setUsers] = useState([]);
-
+export default function Booking({ booking, cars }) {
   const [checkboxSelection, setCheckboxSelection] = useState(true);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/users")
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+  const currencyFormatter = new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  });
+
   const title = "Réservations";
 
   return (
@@ -47,7 +41,6 @@ export default function Users() {
       </Head>
       <Box sx={{ display: "flex" }}>
         <Dashboard title={title} />
-
         <Container style={{ marginTop: "2rem" }}>
           <Typography variant="h4" gutterBottom>
             Réservations
@@ -56,11 +49,11 @@ export default function Users() {
           <div
             style={{ height: "90vh", width: "100%", backgroundColor: "#fff" }}
           >
-            {console.log(users)}
-
             <DataGrid
-              rows={users}
-              loading={!users}
+              onCellClick={(e) => console.log(e)}
+              rows={booking}
+              getRowId={(row) => row.pk}
+              loading={!booking}
               components={{
                 Toolbar: CustomToolbar,
               }}
@@ -68,58 +61,49 @@ export default function Users() {
               checkboxSelection={checkboxSelection}
               experimentalFeatures={{ newEditingApi: true }}
               columns={[
-                { field: "id", headerName: "ID", editable: true, flex: 0.1 },
+                { field: "pk", headerName: "ID", editable: true, flex: 0.1 },
                 {
-                  type: "date",
-                  field: "startDate",
-                  headerName: "Début",
-                  editable: true,
-                  flex: 1,
-                  valueGetter: ({ value }) => value && new Date(value),
-                },
-                {
-                  type: "date",
-                  field: "endDate",
-                  headerName: "Fin",
-                  editable: true,
-                  flex: 1,
-                  valueGetter: ({ value }) => value && new Date(value),
-                },
-                {
-                  field: "vehicId",
+                  field: "model",
                   headerName: "Véhicule",
                   editable: true,
-                  flex: 1.5,
+                  flex: 0.25,
+                  valueGetter: (e) =>
+                    axios
+                      .get(`http://localhost:3000/api/cars/${e.row.car_id}`)
+                      .then((res) => console.log(res.data.Item.model))
+                      .then((model) => model),
                 },
                 {
-                  field: "userId",
-                  headerName: "Utilisateur",
+                  type: "date",
+                  field: "debut",
+                  headerName: "Date de début",
                   editable: true,
-                  flex: 1.5,
+                  flex: 0.25,
+                  valueGetter: ({ value }) => value && new Date(value),
                 },
                 {
-                  type: "price",
-                  field: "price",
+                  type: "date",
+                  field: "fin",
+                  headerName: "Date de fin",
+                  editable: true,
+                  flex: 0.2,
+                  valueGetter: ({ value }) => value && new Date(value),
+                },
+                {
+                  field: "amount",
                   headerName: "Montant",
                   editable: true,
-                  flex: 0.16,
+                  flex: 0.2,
                   valueFormatter: ({ value }) =>
                     currencyFormatter.format(value),
                 },
                 {
-                  type: "date",
-                  field: "dayOfBirth",
-                  headerName: "Date de naissance",
-                  editable: true,
-                  flex: 1,
-                  valueGetter: ({ value }) => value && new Date(value),
-                },
-                {
                   type: "boolean",
-                  field: "isPremium",
-                  headerName: "Premium",
+                  defaultValue: 1,
+                  field: "isAvailable",
+                  headerName: "Dispo",
                   editable: true,
-                  flex: 0.6,
+                  flex: 0.13,
                 },
               ]}
             />
@@ -128,4 +112,15 @@ export default function Users() {
       </Box>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const dbHost = process.env.DB_HOST;
+  const res = await axios.get(`http://localhost:3000/api/booking`);
+  const booking = res.data.Items;
+  return {
+    props: {
+      booking,
+    },
+  };
 }

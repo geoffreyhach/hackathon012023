@@ -9,7 +9,14 @@ const AddressAutofill = dynamic(
   }
 );
 
-export default function Adress({ address, setAddress, geoloc, handleChange }) {
+export default function Adress({
+  address,
+  setAddress,
+  values,
+  setValues,
+  geoloc,
+  handleChange,
+}) {
   const ref = useRef();
 
   useEffect(() => {
@@ -19,9 +26,11 @@ export default function Adress({ address, setAddress, geoloc, handleChange }) {
   const handleRetrieve = (e) => {
     setAddress({
       address: e.features[0].properties.place_name,
-      geoloc: e.features[0].geometry.coordinates,
+      geoloc: [
+        e.features[0].geometry.coordinates[0],
+        e.features[0].geometry.coordinates[1],
+      ],
     });
-    console.log(address);
   };
   return (
     <Box component="form" noValidate>

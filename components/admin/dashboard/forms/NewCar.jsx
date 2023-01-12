@@ -27,7 +27,6 @@ import LicensePlate from "./input/LicensePlate";
 
 const NewCar = () => {
   const [address, setAddress] = useState(" ");
-  const [value, setValue] = useState(dayjs());
   const [values, setValues] = useState({
     brand: "",
     model: "",
@@ -40,7 +39,6 @@ const NewCar = () => {
     km: "",
     consumption: "",
     transmission: "",
-    geoloc: "",
   });
   const [open, setOpen] = useState(false);
 
@@ -51,29 +49,19 @@ const NewCar = () => {
     setOpen(false);
   };
 
+  console.log(values);
+
+  console.log(address);
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const carData = {
-    brand: `${values.brand}`,
-    model: `${values.model}`,
-    category: `${values.category}`,
-    licensePlate: `${values.licensePlate}`,
-    image: `${values.image}`,
-    priceperday: `${values.priceperday}`,
-    passengers: `${values.passengers}`,
-    doors: `${values.doors}`,
-    km: `${values.km}`,
-    consumption: `${values.consumption}`,
-    transmission: `${values.transmission}`,
-    geoloc: [address.geoloc[1], address.geoloc[0]],
-  };
-
   const handleClick = (e) => {
     e.preventDefault();
+    values.geoloc = [address.geoloc[1], address.geoloc[0]];
 
-    axios.post("http://localhost:3000/api/cars", carData).then((response) => {
+    axios.post("http://localhost:3000/api/cars", values).then((response) => {
       console.log(response.status);
       console.log(response.data);
     });
@@ -261,6 +249,8 @@ const NewCar = () => {
               <Adress
                 address={address}
                 setAddress={setAddress}
+                values={values}
+                setValues={setValues}
                 geoloc={values.geoloc}
                 handleChange={handleChange}
               />

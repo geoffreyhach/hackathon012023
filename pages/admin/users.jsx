@@ -43,7 +43,7 @@ export default function Users() {
   return (
     <>
       <Head>
-        <title> Utilisateurs | YTAK </title>
+        <title> Utilisateurs | WILDCARS </title>
       </Head>
       <Box sx={{ display: "flex" }}>
         <Dashboard title={title} />
