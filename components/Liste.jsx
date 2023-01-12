@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -12,7 +12,7 @@ import AlignVerticalCenterIcon from "@mui/icons-material/AlignVerticalCenter";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
 import EuroIcon from "@mui/icons-material/Euro";
 
-function Liste({ fleet }) {
+function Liste({ fleet, setHitmarker, hitmarker }) {
   const cars = [
     {
       id: 1,
@@ -62,6 +62,10 @@ function Liste({ fleet }) {
     },
   ];
 
+  function MarkerClick(car) {
+    setHitmarker(car.id);
+  }
+
   return (
     <Stack
       sx={{
@@ -92,7 +96,9 @@ function Liste({ fleet }) {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: "10px",
+              border: car.id === hitmarker ? "5px solid black" : null,
             }}
+            onClick={() => MarkerClick(car)}
           >
             <CardMedia
               component="img"

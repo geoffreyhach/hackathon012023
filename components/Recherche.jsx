@@ -1,9 +1,11 @@
 import { Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Liste from "./Liste";
 import Mapbox from "./Mapbox";
 
 function Recherche({ fleet }) {
+  const [hitmarker, setHitmarker] = useState(undefined);
+
   return (
     <Stack
       sx={{
@@ -19,10 +21,18 @@ function Recherche({ fleet }) {
       }}
     >
       <Stack sx={{ width: { xs: "100%", md: "55vw" }, height: "100%" }}>
-        <Mapbox fleet={fleet} />
+        <Mapbox
+          fleet={fleet}
+          hitmarker={hitmarker}
+          setHitmarker={setHitmarker}
+        />
       </Stack>
       <Stack sx={{ width: { xs: "100%", md: "45vw" }, height: "100%" }}>
-        <Liste fleet={fleet} />
+        <Liste
+          fleet={fleet}
+          hitmarker={hitmarker}
+          setHitmarker={setHitmarker}
+        />
       </Stack>
     </Stack>
   );
