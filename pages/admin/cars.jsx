@@ -149,7 +149,7 @@ export default function Cars({ fleet }) {
                   headerName: "Tarif",
                   editable: true,
                   align: "center",
-                  flex: 0.16,
+                  flex: 0.2,
                   valueFormatter: ({ value }) =>
                     currencyFormatter.format(value),
                 },
@@ -158,7 +158,7 @@ export default function Cars({ fleet }) {
                   headerName: "Places",
                   editable: true,
                   align: "center",
-                  flex: 0.17,
+                  flex: 0.13,
                 },
                 {
                   field: "doors",
@@ -183,10 +183,10 @@ export default function Cars({ fleet }) {
                 },
                 {
                   field: "transmission",
-                  headerName: "Transmission",
+                  headerName: "Boîte",
                   editable: true,
                   align: "center",
-                  flex: 0.22,
+                  flex: 0.12,
                 },
               ]}
             />
