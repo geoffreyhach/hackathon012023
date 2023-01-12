@@ -19,13 +19,13 @@ function Liste({
   hitmarker,
   setReservation,
   setCarReservation,
+  setStatus,
 }) {
   const { data: session } = useSession();
 
   function takeReservation(car) {
-    console.log(car.id);
-    // setCarReservation(car.id);
     setReservation(true);
+    setStatus(false);
   }
 
   function MarkerClick(car) {

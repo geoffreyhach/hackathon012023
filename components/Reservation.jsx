@@ -7,34 +7,46 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
+import { useSession } from "next-auth/react";
 
-function Reservation({ hitmarker, fleet }) {
+function Reservation({ hitmarker, setReservation, status, setStatus }) {
   const [carReserved, setCarReserved] = useState();
   const [dateDeparture, setDateDeparture] = useState(dayjs());
   const [dateEnd, setDateEnd] = useState(dayjs());
+  const [total, setTotal] = useState();
+
+  const { data: session } = useSession();
 
   const handleDateDeparture = (e) => {
     setDateDeparture(e);
   };
 
+  const dd = dayjs(dateDeparture);
+  const de = dayjs(dateEnd);
+
+  let hours = de.diff(dd, "hours");
+  const days = Math.round(hours / 24);
+  hours = hours - days * 24;
+
   const handleDatedateEnd = (e) => {
     setDateEnd(e);
   };
 
-  const takeReservation = () => {};
-
-  console.log(dateDeparture);
-
-  // const order = {
-  //   dateDeparture,
-  //   dateEnd,
-  // };
-
-  // axios.post(`${endpoint}/??`, order, {
-  //   validateStatus: function (status) {
-  //     return status < 500;
-  //   },
-  // });
+  const takeReservation = () => {
+    const order = {
+      debut: dateDeparture,
+      fin: dateEnd,
+      car_id: hitmarker,
+      users_id: session.user.id,
+      amount: total,
+    };
+    axios.post(`http://localhost:3000/api/booking `, order).then((res) => {
+      if (res.status === 200) {
+        console.log("Reservation pris en compte");
+        setStatus(true);
+      }
+    });
+  };
 
   const endpoint = process.env.DB_HOST;
   useEffect(() => {
@@ -43,6 +55,13 @@ function Reservation({ hitmarker, fleet }) {
       .then((res) => setCarReserved(res.data.Item))
       .catch((error) => console.error(error));
   }, [hitmarker]);
+
+  useEffect(() => {
+    let x = 0;
+    if (carReserved) x = ` ${carReserved.priceperday}`;
+    let y = days;
+    setTotal(x * y);
+  }, [dateDeparture, dateEnd]);
 
   if (carReserved) {
     return (
@@ -95,6 +114,8 @@ function Reservation({ hitmarker, fleet }) {
         >
           <Stack>
             <Typography>{carReserved.priceperday} Euros / jour</Typography>
+
+            <Typography>{total} Euros / jour</Typography>
           </Stack>
           <Stack>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -125,15 +146,19 @@ function Reservation({ hitmarker, fleet }) {
             </LocalizationProvider>
           </Stack>
           <Stack>
-            <Button
-              variant="outlined"
-              sx={{
-                width: { xs: "35vw", md: "15vw", lg: "10vw" },
-              }}
-              onClick={takeReservation}
-            >
-              <Typography>Reserver</Typography>
-            </Button>
+            {!status ? (
+              <Button
+                variant="outlined"
+                sx={{
+                  width: { xs: "35vw", md: "15vw", lg: "10vw" },
+                }}
+                onClick={takeReservation}
+              >
+                <Typography>Reserver</Typography>
+              </Button>
+            ) : (
+              <Typography>Votre reservation à été pris en compte </Typography>
+            )}
           </Stack>
         </Stack>
       </Stack>

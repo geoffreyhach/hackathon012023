@@ -8,6 +8,7 @@ function Recherche({ fleet }) {
   const [hitmarker, setHitmarker] = useState(undefined);
   const [reservation, setReservation] = useState(false);
   const [carReservation, setCarReservation] = useState();
+  const [status, setStatus] = useState(false);
 
   if (reservation === false) {
     return (
@@ -38,12 +39,21 @@ function Recherche({ fleet }) {
             setHitmarker={setHitmarker}
             setReservation={setReservation}
             setCarReservation={setCarReservation}
+            setStatus={setStatus}
           />
         </Stack>
       </Stack>
     );
   }
-  return <Reservation fleet={fleet} hitmarker={hitmarker} />;
+  return (
+    <Reservation
+      fleet={fleet}
+      hitmarker={hitmarker}
+      setReservation={setReservation}
+      setStatus={setStatus}
+      status={status}
+    />
+  );
 }
 
 export default Recherche;
