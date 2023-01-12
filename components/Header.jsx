@@ -1,6 +1,7 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
+import Image from "next/image";
 import React from "react";
-import PersonIcon from "@mui/icons-material/Person";
+import logo from "../public/assets/logowc.png";
 import Login from "./Login";
 
 function Header() {
@@ -15,7 +16,20 @@ function Header() {
                 justifyContent: "space-between",
             }}
         >
-            <Stack sx={{ fontSize: "5em" }}>WILDCARS</Stack>
+            <Stack
+                direction="row"
+                alignItems="center"
+                gap={2}
+                sx={{
+                    fontSize: "5em",
+                    fontFamily: "Roboto Mono",
+                    fontWeight: "100",
+                    color: "lightgrey",
+                }}
+            >
+                <Image src={logo} width="4px" height="4px" />
+                WILDCARS
+            </Stack>
             <Box sx={{ display: "flex", gap: "5px" }}>
                 <Login />
             </Box>
