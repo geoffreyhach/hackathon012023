@@ -1,13 +1,8 @@
-import { Box, Stack, Tab, Tabs } from "@mui/material";
+import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
-import Link from "next/link";
+import PersonIcon from "@mui/icons-material/Person";
 
 function Header() {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
   return (
     <Stack
       sx={{
@@ -20,15 +15,9 @@ function Header() {
       }}
     >
       <Stack sx={{ fontSize: "5em" }}>WILDCARS</Stack>
-      <Box sx={{ maxWidth: { xs: 320, sm: 480 } }}>
-        <Tabs value={value} onChange={handleChange}>
-          <Link href="users">
-            <Tab label="Login" />
-          </Link>
-          <Link href="/admin">
-            <Tab label="Compte Pro" />
-          </Link>
-        </Tabs>
+      <Box sx={{ display: "flex", gap: "5px" }}>
+        <PersonIcon />
+        <Typography>Mon compte</Typography>
       </Box>
     </Stack>
   );
