@@ -49,10 +49,6 @@ const NewCar = () => {
     setOpen(false);
   };
 
-  console.log(values);
-
-  console.log(address);
-
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -280,23 +276,41 @@ const NewCar = () => {
             </Stack>
           </Box>
         </Paper>
-
-        <Snackbar
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ horizontal: "center", vertical: "center" }}
-        >
-          <Alert
-            elevation={6}
-            variant="filled"
+        {response.status === 200 ? (
+          <Snackbar
+            open={open}
+            autoHideDuration={6000}
             onClose={handleClose}
-            severity="error"
-            sx={{ width: "100%" }}
+            anchorOrigin={{ horizontal: "center", vertical: "center" }}
           >
-            Les mots de passe doivent <strong>correspondre</strong>
-          </Alert>
-        </Snackbar>
+            <Alert
+              elevation={6}
+              variant="filled"
+              onClose={handleClose}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              Véhicule enregistrée
+            </Alert>
+          </Snackbar>
+        ) : (
+          <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{ horizontal: "center", vertical: "center" }}
+          >
+            <Alert
+              elevation={6}
+              variant="filled"
+              onClose={handleClose}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              Erreur d'enregistrement
+            </Alert>
+          </Snackbar>
+        )}
       </Stack>
     </Container>
   );
