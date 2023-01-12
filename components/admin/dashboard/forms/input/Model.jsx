@@ -14,6 +14,7 @@ const Model = ({ brand, model, handleChange }) => {
       })
       .catch((error) => console.error(error));
   }, [brand]);
+
   return (
     <Box
       component="form"
@@ -29,7 +30,7 @@ const Model = ({ brand, model, handleChange }) => {
           select
           label="Modèle"
           defaultValue=""
-          onChange={handleChange(model)}
+          onChange={handleChange("model")}
         >
           {models
             .sort((a, b) => (a.fields.model > b.fields.model ? 1 : -1))

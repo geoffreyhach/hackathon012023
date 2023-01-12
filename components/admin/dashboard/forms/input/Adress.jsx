@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, TextField } from "@mui/material";
 import dynamic from "next/dynamic";
 
@@ -9,22 +9,35 @@ const AddressAutofill = dynamic(
   }
 );
 
-export default function Adress({ value, setValue, handleChange }) {
+export default function Adress({ address, setAddress, geoloc, handleChange }) {
+  const ref = useRef();
+
+  useEffect(() => {
+    if (address && ref.current) ref.current.value = address.address;
+  }, [address]);
+
+  const handleRetrieve = (e) => {
+    setAddress({
+      address: e.features[0].properties.place_name,
+      geoloc: e.features[0].geometry.coordinates,
+    });
+    console.log(address);
+  };
   return (
     <Box component="form" noValidate>
       <AddressAutofill
-        onRetrieve={(e) => console.log(e)}
+        onRetrieve={(e) => handleRetrieve(e)}
         options={{
           language: "fr",
           country: "FR",
         }}
-        value={value}
         accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
       >
         <TextField
           required
           name="address"
           id="filled-search"
+          inputRef={ref}
           label="Adresse"
           sx={{
             margin: "0.5rem",
@@ -32,6 +45,7 @@ export default function Adress({ value, setValue, handleChange }) {
           }}
           autocomplete="address-line1"
           type="text"
+          onChange={handleChange("geoloc")}
         />
       </AddressAutofill>
     </Box>
