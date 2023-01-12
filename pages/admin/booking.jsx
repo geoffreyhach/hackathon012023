@@ -69,7 +69,7 @@ export default function Booking({ booking, cars }) {
                   flex: 0.25,
                   valueGetter: (e) =>
                     axios
-                      .get(`http://localhost:3000/api/cars/${e.row.car_id}`)
+                      .get(`http://localhost:3000/api/cars/${row.car_id}`)
                       .then((res) => console.log(res.data.Item.model))
                       .then((model) => model),
                 },
