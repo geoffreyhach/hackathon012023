@@ -9,17 +9,19 @@ function Header() {
         <Stack
             sx={{
                 width: "90%",
-                height: "10vh",
+                height: { sm: "10vh", xs: "column" },
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: { sm: "row", xs: "column" },
                 alignItems: "center",
                 justifyContent: "space-between",
+                paddingBottom: "1rem",
             }}
         >
             <Stack
                 direction="row"
                 alignItems="center"
-                gap={2}
+                justifyContent="center"
+                gap={3}
                 sx={{
                     fontSize: "5em",
                     fontFamily: "Roboto Mono",
@@ -27,7 +29,7 @@ function Header() {
                     color: "lightgrey",
                 }}
             >
-                <Image src={logo} width="4px" height="4px" />
+                <Image src={logo} width={50} height={50} />
                 WILDCARS
             </Stack>
             <Box sx={{ display: "flex", gap: "5px" }}>
