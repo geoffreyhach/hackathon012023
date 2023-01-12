@@ -16,6 +16,17 @@ Get: /api/cars/:id
 
 Post: /api/cars
 
+### Update car
+
+Put : /api/cars/id
+ex =>
+
+```json
+{
+    "champsAModifier": "nouvelle valeur"
+}
+```
+
 ## **Users**
 
 ### Get all users
