@@ -11,27 +11,29 @@ const AddressAutofill = dynamic(
 
 export default function Adress({ value, setValue, handleChange }) {
   return (
-    <AddressAutofill
-      onRetrieve={(e) => handleDeparture(e)}
-      options={{
-        language: "fr",
-        country: "FR",
-      }}
-      value={value}
-      autoComplete="address-line1"
-      accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
-      onChange={(e) => setValue(e.target.value)}
-    >
-      <TextField
-        required
-        id="demo-helper-text-misaligned-no-helper"
-        label="Adresse"
-        sx={{
-          width: { xs: "auto", sm: "30ch" },
-          marginTop: "0.5rem",
+    <Box component="form" noValidate>
+      <AddressAutofill
+        onRetrieve={(e) => console.log(e)}
+        options={{
+          language: "fr",
+          country: "FR",
         }}
-        onChange={handleChange("adress")}
-      />
-    </AddressAutofill>
+        value={value}
+        accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
+      >
+        <TextField
+          required
+          name="address"
+          id="filled-search"
+          label="Adresse"
+          sx={{
+            margin: "0.5rem",
+            width: "100%",
+          }}
+          autocomplete="address-line1"
+          type="text"
+        />
+      </AddressAutofill>
+    </Box>
   );
 }

@@ -5,27 +5,68 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Typography, Box, Button, Stack } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import CachedIcon from "@mui/icons-material/Cached";
 import Dashboard from "../../components/admin/nav/Dashboard";
 import Head from "next/head";
 import NewCar from "../../components/admin/dashboard/forms/NewCar";
+import { ClickAwayListener } from "@mui/base";
 
 function CustomToolbar() {
+  const [openNew, setOpenNew] = useState(false);
+  const handleClickAway = () => {
+    setOpenNew(false);
+  };
   return (
     <GridToolbarContainer
       sx={{ display: "flex", justifyContent: "space-between" }}
     >
-      <Button onClick={() => window.location.reload()}>
-        <CachedIcon />
-        Actualiser
-      </Button>
-      <GridToolbarExport />
-      <Fab size="small" color="primary" aria-label="add">
-        <AddIcon />
-      </Fab>
+      {!openNew && (
+        <>
+          <Button onClick={() => window.location.reload()}>
+            <CachedIcon />
+            Actualiser
+          </Button>
+          <GridToolbarExport />
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="add"
+            onClick={() => setOpenNew(!openNew)}
+          >
+            <AddIcon />
+          </Fab>
+        </>
+      )}
+      {openNew && (
+        <Container
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "row-reverse",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+
+              alignItems: "flex-start",
+              flexDirection: "row-reverse",
+            }}
+          >
+            <Button onClick={() => setOpenNew(false)}>
+              <CloseIcon />
+            </Button>
+
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <NewCar />
+            </ClickAwayListener>
+          </div>
+        </Container>
+      )}
     </GridToolbarContainer>
   );
 }
@@ -67,8 +108,14 @@ export default function Cars({ fleet }) {
               columns={[
                 { field: "id", headerName: "ID", editable: true, flex: 0.1 },
                 {
-                  field: "name",
-                  headerName: "Véhicule",
+                  field: "brand",
+                  headerName: "Marque",
+                  editable: true,
+                  flex: 0.25,
+                },
+                {
+                  field: "model",
+                  headerName: "Modèle",
                   editable: true,
                   flex: 0.25,
                 },
@@ -79,10 +126,17 @@ export default function Cars({ fleet }) {
                   flex: 0.2,
                 },
                 {
-                  field: "dispo",
-                  headerName: "Disponibilité",
+                  field: "licensePlate",
+                  headerName: "Immatriculation",
                   editable: true,
-                  flex: 0.25,
+                  flex: 0.2,
+                },
+                {
+                  field: "location",
+                  headerName: "Adresse",
+                  editable: true,
+                  align: "center",
+                  flex: 0.35,
                 },
                 {
                   field: "image",
@@ -100,14 +154,14 @@ export default function Cars({ fleet }) {
                     currencyFormatter.format(value),
                 },
                 {
-                  field: "nbpassengers",
-                  headerName: "Passagers",
+                  field: "passengers",
+                  headerName: "Places",
                   editable: true,
                   align: "center",
                   flex: 0.17,
                 },
                 {
-                  field: "nbdoors",
+                  field: "doors",
                   headerName: "Portes",
                   editable: true,
                   align: "center",
@@ -134,26 +188,16 @@ export default function Cars({ fleet }) {
                   align: "center",
                   flex: 0.22,
                 },
-                {
-                  field: "geoloc",
-                  headerName: "Geolocalisation",
-                  editable: true,
-                  align: "center",
-                  flex: 0.35,
-                },
               ]}
             />
           </div>
         </Container>
-        {/* {openNew &&  */}
-        <NewCar />
-        {/* } */}
       </Box>
     </>
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const dbHost = process.env.DB_HOST;
   const res = await axios.get(`http://localhost:3000/api/cars`);
   const fleet = res.data.Items;

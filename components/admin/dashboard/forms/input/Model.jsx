@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, TextField, MenuItem } from "@mui/material";
 import axios from "axios";
 
-const Model = ({ brand, handleChange }) => {
+const Model = ({ brand, model, handleChange }) => {
   const [models, setModels] = useState([]);
   useEffect(() => {
     axios
@@ -29,7 +29,7 @@ const Model = ({ brand, handleChange }) => {
           select
           label="Modèle"
           defaultValue=""
-          onChange={handleChange(brand)}
+          onChange={handleChange(model)}
         >
           {models
             .sort((a, b) => (a.fields.model > b.fields.model ? 1 : -1))

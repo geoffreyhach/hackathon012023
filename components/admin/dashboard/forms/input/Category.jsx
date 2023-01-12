@@ -20,7 +20,7 @@ const categories = [
   },
 ];
 
-export default function Category() {
+export default function Category({ brand, handleChange }) {
   return (
     <Box
       component="form"
@@ -36,6 +36,7 @@ export default function Category() {
           select
           label="Catégorie"
           defaultValue=""
+          onChange={handleChange("category")}
         >
           {categories.map((option) => (
             <MenuItem key={option.value} value={option.value}>
