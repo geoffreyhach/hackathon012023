@@ -7,7 +7,7 @@ import Reservation from "./Reservation";
 function Recherche({ fleet }) {
   const [hitmarker, setHitmarker] = useState(undefined);
   const [reservation, setReservation] = useState(false);
-  const [carReservation, setCarReservation] = useState(undefined);
+  const [carReservation, setCarReservation] = useState();
 
   if (reservation === false) {
     return (
@@ -43,7 +43,7 @@ function Recherche({ fleet }) {
       </Stack>
     );
   }
-  return <Reservation fleet={fleet} carReservation={carReservation} />;
+  return <Reservation fleet={fleet} hitmarker={hitmarker} />;
 }
 
 export default Recherche;
