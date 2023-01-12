@@ -11,7 +11,6 @@ import {
 import PeopleIcon from "@mui/icons-material/People";
 import AlignVerticalCenterIcon from "@mui/icons-material/AlignVerticalCenter";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
-import EuroIcon from "@mui/icons-material/Euro";
 import { useSession } from "next-auth/react";
 
 function Liste({
@@ -20,12 +19,13 @@ function Liste({
   hitmarker,
   setReservation,
   setCarReservation,
+  setStatus,
 }) {
   const { data: session } = useSession();
 
   function takeReservation(car) {
-    setCarReservation(car.id);
     setReservation(true);
+    setStatus(false);
   }
 
   function MarkerClick(car) {
@@ -55,7 +55,7 @@ function Liste({
             <Card
               key={index}
               sx={{
-                height: "20vh",
+                height: { sm: "27vh", md: "25vh" },
                 width: "90%",
                 display: "flex",
                 flexDirection: "row",
@@ -84,75 +84,116 @@ function Liste({
                   width: { xs: "40vw", sm: "40vw", md: "18vw" },
                 }}
               >
-                <Typography
-                  sx={{
-                    textAlign: "center",
-                    fontSize: "1em",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <strong>{car.name}</strong>
-                </Typography>
-                <Typography
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    fontSize: "0.8em",
-                  }}
-                >
-                  <PeopleIcon
-                    sx={{ fontSize: { xs: "small", sm: "medium" } }}
-                  />
-                  {car.nbpassengers}
-                </Typography>
-                <Typography
+                <Stack sx={{ paddingBottom: { sm: "5px", md: "15px" } }}>
+                  <Typography
+                    sx={{
+                      textAlign: "center",
+                      fontSize: { xs: "1em", lg: "1.5em" },
+                      marginBottom: { xs: "10px", lg: "20px" },
+                    }}
+                  >
+                    <strong>
+                      {car.brand} {car.model}
+                    </strong>
+                  </Typography>
+                </Stack>
+                <Stack
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
                     gap: "10px",
-                    fontSize: "0.8em",
                   }}
                 >
-                  <AlignVerticalCenterIcon
-                    sx={{ fontSize: { xs: "small", sm: "medium" } }}
-                  />
-                  {car.transmission}
-                </Typography>
-                <Typography
+                  <Stack>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontSize: "1em",
+                      }}
+                    >
+                      <PeopleIcon
+                        sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                      />
+                      {car.passengers}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontSize: "1em",
+                      }}
+                    >
+                      <PeopleIcon
+                        sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                      />
+                      {car.doors}
+                    </Typography>
+                  </Stack>
+                  <Stack>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontSize: "1em",
+                      }}
+                    >
+                      <AlignVerticalCenterIcon
+                        sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                      />
+                      {car.transmission}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontSize: "1em",
+                      }}
+                    >
+                      <AvTimerIcon
+                        sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                      />
+                      {car.consumption}L/100km
+                    </Typography>
+                  </Stack>
+                </Stack>
+                <Stack
                   sx={{
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
-                    gap: "10px",
-                    fontSize: "0.8em",
+                    justifyContent: "space-around",
+                    paddingBottom: "20px",
+                    paddingTop: "20px",
+                    gap: "5px",
                   }}
                 >
-                  <AvTimerIcon
-                    sx={{ fontSize: { xs: "small", sm: "medium" } }}
-                  />
-                  {car.consumption}L/100km
-                </Typography>
-                <Typography
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    fontSize: "0.8em",
-                  }}
-                >
-                  <EuroIcon sx={{ fontSize: { xs: "small", sm: "medium" } }} />
-                  {car.priceperday} euros/jour
-                </Typography>
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      fontSize: { xs: "1em", sm: "1.5em" },
+                    }}
+                  >
+                    <strong> {car.priceperday} euros/jour </strong>
+                  </Typography>
 
-                <Button
-                  variant="outlined"
-                  sx={{
-                    width: "7vw",
-                  }}
-                  onClick={() => takeReservation(car)}
-                >
-                  <Typography>Reserver</Typography>
-                </Button>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      width: { xs: "35vw", md: "15vw", lg: "10vw" },
+                    }}
+                    onClick={() => takeReservation(car)}
+                  >
+                    <Typography>Reserver</Typography>
+                  </Button>
+                </Stack>
               </CardContent>
             </Card>
           ))}
@@ -183,13 +224,14 @@ function Liste({
           <Card
             key={index}
             sx={{
-              height: "20vh",
+              height: { sm: "27vh", md: "25vh" },
               width: "90%",
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
               borderRadius: "10px",
+              backgroundColor: "#EAEDED",
               border: car.id === hitmarker ? "5px solid black" : null,
             }}
             onClick={() => MarkerClick(car)}
@@ -211,61 +253,106 @@ function Liste({
                 width: { xs: "40vw", sm: "40vw", md: "18vw" },
               }}
             >
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  fontSize: "1em",
-                  marginBottom: "10px",
-                }}
-              >
-                <strong>{car.name}</strong>
-              </Typography>
-              <Typography
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  fontSize: "0.8em",
-                }}
-              >
-                <PeopleIcon sx={{ fontSize: { xs: "small", sm: "medium" } }} />
-                {car.nbpassengers}
-              </Typography>
-              <Typography
+              <Stack sx={{ paddingBottom: { sm: "5px", md: "15px" } }}>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    fontSize: { xs: "1em", lg: "1.5em" },
+                    marginBottom: { xs: "10px", lg: "20px" },
+                  }}
+                >
+                  <strong>
+                    {car.brand} {car.model}
+                  </strong>
+                </Typography>
+              </Stack>
+              <Stack
                 sx={{
                   display: "flex",
-                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
                   gap: "10px",
-                  fontSize: "0.8em",
                 }}
               >
-                <AlignVerticalCenterIcon
-                  sx={{ fontSize: { xs: "small", sm: "medium" } }}
-                />
-                {car.transmission}
-              </Typography>
-              <Typography
+                <Stack>
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      fontSize: "1em",
+                    }}
+                  >
+                    <PeopleIcon
+                      sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                    />
+                    {car.passengers}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      fontSize: "1em",
+                    }}
+                  >
+                    <PeopleIcon
+                      sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                    />
+                    {car.doors}
+                  </Typography>
+                </Stack>
+                <Stack>
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      fontSize: "1em",
+                    }}
+                  >
+                    <AlignVerticalCenterIcon
+                      sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                    />
+                    {car.transmission}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      fontSize: "1em",
+                    }}
+                  >
+                    <AvTimerIcon
+                      sx={{ fontSize: { xs: "small", sm: "medium" } }}
+                    />
+                    {car.consumption}L/100km
+                  </Typography>
+                </Stack>
+              </Stack>
+              <Stack
                 sx={{
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  gap: "10px",
-                  fontSize: "0.8em",
+                  justifyContent: "space-around",
+                  paddingBottom: "20px",
+                  paddingTop: "20px",
+                  gap: "5px",
                 }}
               >
-                <AvTimerIcon sx={{ fontSize: { xs: "small", sm: "medium" } }} />
-                {car.consumption}L/100km
-              </Typography>
-              <Typography
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  fontSize: "0.8em",
-                }}
-              >
-                <EuroIcon sx={{ fontSize: { xs: "small", sm: "medium" } }} />
-                {car.priceperday} euros/jour
-              </Typography>
+                <Typography
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    fontSize: { xs: "1em", sm: "1.5em" },
+                  }}
+                >
+                  <strong> {car.priceperday} euros/jour </strong>
+                </Typography>
+              </Stack>
             </CardContent>
           </Card>
         ))}
