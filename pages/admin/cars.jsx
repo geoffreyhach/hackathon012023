@@ -1,67 +1,83 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   DataGrid,
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Typography, Box, Button, Stack } from "@mui/material";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import CachedIcon from "@mui/icons-material/Cached";
 import Dashboard from "../../components/admin/nav/Dashboard";
 import Head from "next/head";
+import NewCar from "../../components/admin/dashboard/forms/NewCar";
+import { ClickAwayListener } from "@mui/base";
 
 function CustomToolbar() {
+  const [openNew, setOpenNew] = useState(false);
+  const handleClickAway = () => {
+    setOpenNew(false);
+  };
   return (
     <GridToolbarContainer
       sx={{ display: "flex", justifyContent: "space-between" }}
     >
-      <Button onClick={() => window.location.reload()}>
-        <CachedIcon />
-        Actualiser
-      </Button>
-      <GridToolbarExport />
+      {!openNew && (
+        <>
+          <Button onClick={() => window.location.reload()}>
+            <CachedIcon />
+            Actualiser
+          </Button>
+          <GridToolbarExport />
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="add"
+            onClick={() => setOpenNew(!openNew)}
+          >
+            <AddIcon />
+          </Fab>
+        </>
+      )}
+      {openNew && (
+        <Container
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "row-reverse",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+
+              alignItems: "flex-start",
+              flexDirection: "row-reverse",
+            }}
+          >
+            <Button onClick={() => setOpenNew(false)}>
+              <CloseIcon />
+            </Button>
+
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <NewCar />
+            </ClickAwayListener>
+          </div>
+        </Container>
+      )}
     </GridToolbarContainer>
   );
 }
 
-export default function Cars() {
-  const dataCars = {
-    id: 1,
-    name: "PEUGEOT 208",
-    category: "Citadine",
-    dispo: "",
-    image:
-      "https://www.peugeot.fr/content/dam/peugeot/france/b2c/odm/2022/decembre-2022/offre-hiver/tranche-odm-hp/PEUGEOT_e208_800x600.jpg?imwidth:1920",
-    priceperday: "55",
-    nbpassengers: "5",
-    nbdoors: "3",
-    km: "25000",
-    consumption: "1.1",
-    transmission: "auto",
-    longitude: "55",
-    lattitude: "47",
-  };
-
-  const [cars, setCars] = useState([dataCars]);
-
+export default function Cars({ fleet }) {
   const [checkboxSelection, setCheckboxSelection] = useState(true);
 
   const currencyFormatter = new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: "EUR",
   });
-
-  // useEffect(() => {
-  // axios;
-  // .get("http://")
-  // .then((res) => {
-  //   // setCars(res.data);
-  //   console.log(res.data);
-  // })
-  // .catch((error) => console.error(error));
-  // setCars(dataCars);
-  // setCars(dataCars);
-  // }, []);
 
   const title = "Véhicules";
 
@@ -72,7 +88,6 @@ export default function Cars() {
       </Head>
       <Box sx={{ display: "flex" }}>
         <Dashboard title={title} />
-
         <Container style={{ marginTop: "2rem" }}>
           <Typography variant="h4" gutterBottom>
             Véhicules
@@ -82,8 +97,8 @@ export default function Cars() {
             style={{ height: "90vh", width: "100%", backgroundColor: "#fff" }}
           >
             <DataGrid
-              rows={cars}
-              loading={!cars}
+              rows={fleet}
+              loading={!fleet}
               components={{
                 Toolbar: CustomToolbar,
               }}
@@ -93,8 +108,14 @@ export default function Cars() {
               columns={[
                 { field: "id", headerName: "ID", editable: true, flex: 0.1 },
                 {
-                  field: "name",
-                  headerName: "Véhicule",
+                  field: "brand",
+                  headerName: "Marque",
+                  editable: true,
+                  flex: 0.25,
+                },
+                {
+                  field: "model",
+                  headerName: "Modèle",
                   editable: true,
                   flex: 0.25,
                 },
@@ -105,10 +126,17 @@ export default function Cars() {
                   flex: 0.2,
                 },
                 {
-                  field: "dispo",
-                  headerName: "Disponibilité",
+                  field: "licensePlate",
+                  headerName: "Immatriculation",
                   editable: true,
-                  flex: 0.25,
+                  flex: 0.2,
+                },
+                {
+                  field: "location",
+                  headerName: "Adresse",
+                  editable: true,
+                  align: "center",
+                  flex: 0.35,
                 },
                 {
                   field: "image",
@@ -126,14 +154,14 @@ export default function Cars() {
                     currencyFormatter.format(value),
                 },
                 {
-                  field: "nbpassengers",
-                  headerName: "Passagers",
+                  field: "passengers",
+                  headerName: "Places",
                   editable: true,
                   align: "center",
                   flex: 0.17,
                 },
                 {
-                  field: "nbdoors",
+                  field: "doors",
                   headerName: "Portes",
                   editable: true,
                   align: "center",
@@ -160,20 +188,6 @@ export default function Cars() {
                   align: "center",
                   flex: 0.22,
                 },
-                {
-                  field: "longitude",
-                  headerName: "Longitude",
-                  editable: true,
-                  align: "center",
-                  flex: 0.16,
-                },
-                {
-                  field: "attitude",
-                  headerName: "Lattitude",
-                  editable: true,
-                  align: "center",
-                  flex: 0.16,
-                },
               ]}
             />
           </div>
@@ -181,4 +195,15 @@ export default function Cars() {
       </Box>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const dbHost = process.env.DB_HOST;
+  const res = await axios.get(`http://localhost:3000/api/cars`);
+  const fleet = res.data.Items;
+  return {
+    props: {
+      fleet,
+    },
+  };
 }
