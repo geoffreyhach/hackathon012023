@@ -4,12 +4,21 @@ import PersonPinCircleTwoToneIcon from "@mui/icons-material/PersonPinCircleTwoTo
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import axios from "axios";
 
-function Mapbox({ fleet }) {
+function Mapbox({ fleet, setHitmarker, hitmarker }) {
   const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
+  const [marker, setMarker] = useState(undefined);
 
-  const MarkerClick = (car) => {
-    console.log(car);
-  };
+  function MarkerClick(car) {
+    if (marker !== hitmarker && marker !== undefined) {
+      return setMarker(car.id);
+    } else {
+      return setMarker(car.id);
+    }
+  }
+
+  useEffect(() => {
+    setHitmarker(marker);
+  }, [marker]);
 
   return (
     <Map
@@ -44,7 +53,9 @@ function Mapbox({ fleet }) {
               anchor={"center"}
               onClick={() => MarkerClick(car)}
             >
-              <DirectionsCarFilledIcon />
+              <DirectionsCarFilledIcon
+                sx={{ color: car.id === hitmarker ? "red" : null }}
+              />
             </Marker>
           );
         })}
