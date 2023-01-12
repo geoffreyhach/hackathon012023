@@ -7,7 +7,8 @@ import Reservation from "./Reservation";
 function Recherche({ fleet }) {
     const [hitmarker, setHitmarker] = useState(undefined);
     const [reservation, setReservation] = useState(false);
-    const [carReservation, setCarReservation] = useState(undefined);
+    const [carReservation, setCarReservation] = useState();
+    const [status, setStatus] = useState(false);
 
     if (reservation === false) {
         return (
@@ -21,15 +22,11 @@ function Recherche({ fleet }) {
                     height: "85vh",
                     overflow: "hidden",
                     overflowY: "auto",
-                    backgroundColor: "#ededea",
+                    backgroundColor: "#EAEDED",
                 }}
             >
                 <Stack
-                    sx={{
-                        width: { xs: "90vw", md: "55vw" },
-                        height: "100%",
-                        margin: "auto",
-                    }}
+                    sx={{ width: { xs: "100%", md: "55vw" }, height: "100%" }}
                 >
                     <Mapbox
                         fleet={fleet}
@@ -46,12 +43,21 @@ function Recherche({ fleet }) {
                         setHitmarker={setHitmarker}
                         setReservation={setReservation}
                         setCarReservation={setCarReservation}
+                        setStatus={setStatus}
                     />
                 </Stack>
             </Stack>
         );
     }
-    return <Reservation fleet={fleet} carReservation={carReservation} />;
+    return (
+        <Reservation
+            fleet={fleet}
+            hitmarker={hitmarker}
+            setReservation={setReservation}
+            setStatus={setStatus}
+            status={status}
+        />
+    );
 }
 
 export default Recherche;
