@@ -27,6 +27,7 @@ import LicensePlate from "./input/LicensePlate";
 
 const NewCar = () => {
   const [address, setAddress] = useState(" ");
+  const [status, setStatus] = useState("");
   const [values, setValues] = useState({
     brand: "",
     model: "",
