@@ -1,0 +1,131 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarExport,
+} from "@mui/x-data-grid";
+import { Container, Typography, Box, Button } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
+import Dashboard from "../../components/admin/nav/Dashboard";
+import Head from "next/head";
+import dayjs from "dayjs";
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer
+      sx={{ display: "flex", justifyContent: "space-between" }}
+    >
+      <Button onClick={() => window.location.reload()}>
+        <CachedIcon />
+        Actualiser
+      </Button>
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
+
+export default function Users() {
+  const [users, setUsers] = useState([]);
+
+  const [checkboxSelection, setCheckboxSelection] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/users")
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  const title = "Réservations";
+
+  return (
+    <>
+      <Head>
+        <title> Réservations | WILDCARS </title>
+      </Head>
+      <Box sx={{ display: "flex" }}>
+        <Dashboard title={title} />
+
+        <Container style={{ marginTop: "2rem" }}>
+          <Typography variant="h4" gutterBottom>
+            Réservations
+          </Typography>
+
+          <div
+            style={{ height: "90vh", width: "100%", backgroundColor: "#fff" }}
+          >
+            {console.log(users)}
+
+            <DataGrid
+              rows={users}
+              loading={!users}
+              components={{
+                Toolbar: CustomToolbar,
+              }}
+              // editMode="row"
+              checkboxSelection={checkboxSelection}
+              experimentalFeatures={{ newEditingApi: true }}
+              columns={[
+                { field: "id", headerName: "ID", editable: true, flex: 0.1 },
+                {
+                  type: "date",
+                  field: "startDate",
+                  headerName: "Début",
+                  editable: true,
+                  flex: 1,
+                  valueGetter: ({ value }) => value && new Date(value),
+                },
+                {
+                  type: "date",
+                  field: "endDate",
+                  headerName: "Fin",
+                  editable: true,
+                  flex: 1,
+                  valueGetter: ({ value }) => value && new Date(value),
+                },
+                {
+                  field: "vehicId",
+                  headerName: "Véhicule",
+                  editable: true,
+                  flex: 1.5,
+                },
+                {
+                  field: "userId",
+                  headerName: "Utilisateur",
+                  editable: true,
+                  flex: 1.5,
+                },
+                {
+                  type: "price",
+                  field: "price",
+                  headerName: "Montant",
+                  editable: true,
+                  flex: 0.16,
+                  valueFormatter: ({ value }) =>
+                    currencyFormatter.format(value),
+                },
+                {
+                  type: "date",
+                  field: "dayOfBirth",
+                  headerName: "Date de naissance",
+                  editable: true,
+                  flex: 1,
+                  valueGetter: ({ value }) => value && new Date(value),
+                },
+                {
+                  type: "boolean",
+                  field: "isPremium",
+                  headerName: "Premium",
+                  editable: true,
+                  flex: 0.6,
+                },
+              ]}
+            />
+          </div>
+        </Container>
+      </Box>
+    </>
+  );
+}
