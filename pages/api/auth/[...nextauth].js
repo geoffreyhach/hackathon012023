@@ -38,6 +38,7 @@ export const authOptions = {
     callbacks: {
         async session({ session, token, user }) {
             session.user.isAdmin = user.isAdmin;
+            session.user.id = user.id;
             return session;
         },
     },
