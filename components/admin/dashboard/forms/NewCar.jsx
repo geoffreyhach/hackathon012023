@@ -27,7 +27,7 @@ import LicensePlate from "./input/LicensePlate";
 
 const NewCar = () => {
   const [address, setAddress] = useState(" ");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(false);
   const [values, setValues] = useState({
     brand: "",
     model: "",
@@ -41,13 +41,12 @@ const NewCar = () => {
     consumption: "",
     transmission: "",
   });
-  const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    setStatus(false);
   };
 
   const handleChange = (prop) => (event) => {
@@ -58,9 +57,11 @@ const NewCar = () => {
     e.preventDefault();
     values.geoloc = [address.geoloc[1], address.geoloc[0]];
 
-    axios.post("http://localhost:3000/api/cars", values).then((response) => {
-      console.log(response.status);
-      console.log(response.data);
+    axios.post("http://localhost:3000/api/cars", values).then((res) => {
+      if (res.status === 200) {
+        console.log("Reservation pris en compte");
+        setStatus(true);
+      }
     });
   };
 
@@ -277,41 +278,23 @@ const NewCar = () => {
             </Stack>
           </Box>
         </Paper>
-        {response.status === 200 ? (
-          <Snackbar
-            open={open}
-            autoHideDuration={6000}
+
+        <Snackbar
+          open={status}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ horizontal: "center", vertical: "center" }}
+        >
+          <Alert
+            elevation={6}
+            variant="filled"
             onClose={handleClose}
-            anchorOrigin={{ horizontal: "center", vertical: "center" }}
+            severity="error"
+            sx={{ width: "100%" }}
           >
-            <Alert
-              elevation={6}
-              variant="filled"
-              onClose={handleClose}
-              severity="error"
-              sx={{ width: "100%" }}
-            >
-              Véhicule enregistrée
-            </Alert>
-          </Snackbar>
-        ) : (
-          <Snackbar
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-            anchorOrigin={{ horizontal: "center", vertical: "center" }}
-          >
-            <Alert
-              elevation={6}
-              variant="filled"
-              onClose={handleClose}
-              severity="error"
-              sx={{ width: "100%" }}
-            >
-              Erreur d'enregistrement
-            </Alert>
-          </Snackbar>
-        )}
+            Véhicule enregistrée
+          </Alert>
+        </Snackbar>
       </Stack>
     </Container>
   );
