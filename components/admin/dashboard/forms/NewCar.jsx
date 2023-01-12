@@ -74,7 +74,6 @@ const NewCar = () => {
 
     axios.post("http://localhost:3000/api/cars", carData).then((response) => {
       console.log(response.status);
-      console.log(response.data.token);
       console.log(response.data);
     });
   };
@@ -124,6 +123,7 @@ const NewCar = () => {
                 brand={values.brand}
                 handleChange={handleChange}
               />
+              {console.log(values.model)}
 
               <Category
                 category={values.category}
