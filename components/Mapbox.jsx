@@ -9,7 +9,6 @@ function Mapbox({ fleet }) {
 
   const MarkerClick = (car) => {
     console.log(car);
-    console.log("test");
   };
 
   return (
