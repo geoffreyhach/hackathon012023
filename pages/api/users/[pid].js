@@ -3,7 +3,7 @@ import dynamoClient from "../db";
 export default async function handler(req, res) {
     const { pid } = req.query;
     const params = {
-        TableName: "user",
+        TableName: "users",
         Key: {
             id: pid,
         },
