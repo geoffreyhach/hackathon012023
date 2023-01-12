@@ -26,6 +26,7 @@ import "dayjs/locale/fr";
 import LicensePlate from "./input/LicensePlate";
 
 const NewCar = () => {
+  const [address, setAddress] = useState(" ");
   const [value, setValue] = useState(dayjs());
   const [values, setValues] = useState({
     brand: "",
@@ -39,7 +40,7 @@ const NewCar = () => {
     km: "",
     consumption: "",
     transmission: "",
-    location: "",
+    geoloc: "",
   });
   const [open, setOpen] = useState(false);
 
@@ -54,16 +55,28 @@ const NewCar = () => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const carData = {
+    brand: `${values.brand}`,
+    model: `${values.model}`,
+    category: `${values.category}`,
+    licensePlate: `${values.licensePlate}`,
+    image: `${values.image}`,
+    priceperday: `${values.priceperday}`,
+    passengers: `${values.passengers}`,
+    doors: `${values.doors}`,
+    km: `${values.km}`,
+    consumption: `${values.consumption}`,
+    transmission: `${values.transmission}`,
+    geoloc: [address.geoloc[1], address.geoloc[0]],
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:5000/auth/signup", userData)
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.data.token);
-        console.log(response.data);
-      });
+    axios.post("http://localhost:3000/api/cars", carData).then((response) => {
+      console.log(response.status);
+      console.log(response.data);
+    });
   };
 
   return (
@@ -105,7 +118,6 @@ const NewCar = () => {
               }}
             >
               <Brand brand={values.brand} handleChange={handleChange} />
-              {console.log(values.brand)}
               <Model
                 model={values.model}
                 brand={values.brand}
@@ -117,7 +129,6 @@ const NewCar = () => {
                 handleChange={handleChange}
               />
 
-              {/* Adress autofill Mapbox */}
               <LicensePlate
                 licensePlate={values.licensePlate}
                 handleChange={handleChange}
@@ -147,27 +158,32 @@ const NewCar = () => {
                       <InputAdornment position="end">€</InputAdornment>
                     }
                     label="Tarif journalier"
+                    onChange={handleChange("priceperday")}
                   />
                 </FormControl>
                 <TextField
                   id="outlined-number"
                   label="Places"
                   type="number"
+                  defaultValue="0"
                   InputLabelProps={{
                     shrink: true,
                   }}
                   inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                   sx={{ m: 1, width: "60px" }}
+                  onChange={handleChange("passengers")}
                 />
                 <TextField
                   id="outlined-number"
                   label="Portes"
                   type="number"
+                  defaultValue="0"
                   InputLabelProps={{
                     shrink: true,
                   }}
                   inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                   sx={{ m: 1, width: "60px" }}
+                  onChange={handleChange("doors")}
                 />
 
                 <FormControl
@@ -186,6 +202,7 @@ const NewCar = () => {
                       <InputAdornment position="end">km</InputAdornment>
                     }
                     label="Kilométrage"
+                    onChange={handleChange("km")}
                   />
                 </FormControl>
                 <FormControl
@@ -204,6 +221,7 @@ const NewCar = () => {
                       <InputAdornment position="end">l/100km</InputAdornment>
                     }
                     label="Consommation"
+                    onChange={handleChange("consumption")}
                   />
                 </FormControl>
                 <FormControl
@@ -226,6 +244,7 @@ const NewCar = () => {
                     }}
                     noValidate
                     autoComplete="off"
+                    onChange={handleChange("transmission")}
                   >
                     <MenuItem key="manual" value="M">
                       M
@@ -238,7 +257,14 @@ const NewCar = () => {
               </Box>
             </Stack>
             <Stack>
-              <Adress handleChange={handleChange} />
+              {/* Adress autofill Mapbox */}
+              <Adress
+                address={address}
+                setAddress={setAddress}
+                geoloc={values.geoloc}
+                handleChange={handleChange}
+              />
+              {/* {console.log(address.geoloc.reverse())} */}
             </Stack>
             <Stack
               sx={{

@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     }
     if (req.method === "POST") {
         req.body.id = String(uuidv4());
-        console.log(req.body);
+
         const params = {
             TableName: "users",
             Item: req.body,

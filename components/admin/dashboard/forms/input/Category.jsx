@@ -20,7 +20,7 @@ const categories = [
   },
 ];
 
-export default function Category({ brand, handleChange }) {
+export default function Category({ category, handleChange }) {
   return (
     <Box
       component="form"
