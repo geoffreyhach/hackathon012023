@@ -24,8 +24,6 @@ export default function Home({ fleet }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundImage:
-            "linear-gradient(to right top, #eb5f07, #ed5326, #ed4939, #ea4049, #e43b58)",
         }}
       >
         <Header />
