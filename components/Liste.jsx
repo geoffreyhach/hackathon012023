@@ -12,6 +12,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import AlignVerticalCenterIcon from "@mui/icons-material/AlignVerticalCenter";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
 import { useSession } from "next-auth/react";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 
 function Liste({
   fleet,
@@ -113,8 +114,9 @@ function Liste({
                         lg: "1.5em",
                       },
                       marginBottom: {
-                        xs: "10px",
-                        lg: "20px",
+                        xs: "15px",
+                        md: "15px",
+                        lg: "0px",
                       },
                     }}
                   >
@@ -158,7 +160,7 @@ function Liste({
                         fontSize: "1em",
                       }}
                     >
-                      <PeopleIcon
+                      <MeetingRoomIcon
                         sx={{
                           fontSize: {
                             xs: "small",
@@ -380,7 +382,7 @@ function Liste({
                       fontSize: "1em",
                     }}
                   >
-                    <PeopleIcon
+                    <MeetingRoomIcon
                       sx={{
                         fontSize: {
                           xs: "small",

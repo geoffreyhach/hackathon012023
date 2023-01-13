@@ -131,20 +131,30 @@ function Reservation({ hitmarker, setReservation, status, setStatus }) {
                 gap: "10px",
               }}
             >
-              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
-                {carReserved.brand}
+              <Typography
+                sx={{
+                  fontSize: {
+                    xs: "1.4em",
+                    md: "1.5em",
+                    borderBottom: "1px solid black",
+                    paddingBottom: "10px",
+                  },
+                }}
+              >
+                {carReserved.brand} {carReserved.model}
               </Typography>
-              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
-                {carReserved.model}
-              </Typography>
+
               <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
                 {carReserved.category}
               </Typography>
               <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
-                {carReserved.doors}
+                {carReserved.passengers} Places
               </Typography>
               <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
-                {carReserved.consumption}
+                Transmission: {carReserved.transmission}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
+                {carReserved.consumption} L / 100 km
               </Typography>
               <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
                 {carReserved.priceperday} Euros / jour
