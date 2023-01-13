@@ -1,4 +1,4 @@
-import { Stack, Typography, CardMedia, Button } from "@mui/material";
+import { Stack, Typography, CardMedia, Button, Card } from "@mui/material";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -80,50 +80,100 @@ function Reservation({ hitmarker, setReservation, status, setStatus }) {
           height: "85vh",
           overflow: "hidden",
           overflowY: "auto",
+
           backgroundColor: "#EAEDED",
+          position: "relative",
         }}
+        style={{ scrollbarWidth: "none" }}
       >
         <Stack
           sx={{
-            width: "50%",
+            width: { xs: "100%", md: "50%" },
+            padding: "2em",
             height: "100%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            borderRight: { xs: "none", md: "5px solid #d4d4b5" },
+            borderBottom: { xs: "5px solid #d4d4b5", md: "none" },
+            backgroundColor: "#EAEDED",
+            gap: "10px",
           }}
         >
           <CardMedia
             component="img"
             sx={{
               height: "auto",
-              width: "50%",
+              width: "60%",
             }}
             image={carReserved.image}
           />
-          <Typography>{carReserved.brand}</Typography>
-          <Typography>{carReserved.model}</Typography>
-          <Typography>{carReserved.category}</Typography>
-          <Typography>{carReserved.doors}</Typography>
-          <Typography>{carReserved.consumption}</Typography>
+          <Stack
+            sx={{
+              backgroundColor: "#EAEDED",
+              width: "40vw",
+              height: "40vh",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              alignItems: "center",
+              fontFamily: "Roboto Mono",
+            }}
+          >
+            <Stack
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                fontFamily: "Roboto Mono",
+                gap: "10px",
+              }}
+            >
+              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
+                {carReserved.brand}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
+                {carReserved.model}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
+                {carReserved.category}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
+                {carReserved.doors}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
+                {carReserved.consumption}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "1.4em", md: "1.5em" } }}>
+                {carReserved.priceperday} Euros / jour
+              </Typography>
+            </Stack>
+          </Stack>
         </Stack>
         <Stack
           sx={{
-            width: "50%",
+            backgroundColor: "#EAEDED",
+            padding: "2em",
+            width: { xs: "100%", md: "50%" },
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
             justifyContent: "center",
+            alignItems: "center",
+            fontFamily: "Roboto Mono",
+            gap: "2.5em",
           }}
         >
-          <ClearIcon onClick={back}>Revenir à la selection </ClearIcon>
-          <Stack>
-            <Typography>{carReserved.priceperday} Euros / jour</Typography>
+          <ClearIcon
+            onClick={back}
+            sx={{ position: "absolute", top: "10px", right: "10px" }}
+          >
+            Revenir à la selection{" "}
+          </ClearIcon>
 
-            <Typography>{total} Euros</Typography>
-          </Stack>
-          <Stack>
+          <Stack sx={{ width: { xs: "50vw", md: "15vw" }, height: "auto" }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 renderInput={(props) => (
@@ -137,19 +187,29 @@ function Reservation({ hitmarker, setReservation, status, setStatus }) {
               />
             </LocalizationProvider>
           </Stack>
-          <Stack>
+          <Stack sx={{ width: { xs: "50vw", md: "15vw" }, height: "auto" }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 renderInput={(props) => (
                   <TextField {...props} variant="standard" fullWidth />
                 )}
-                label="Date de fin"
+                label="Date de retour"
                 ampm={false}
                 value={dateEnd}
                 onChange={(e) => handleDatedateEnd(e)}
                 minDate={dayjs()}
               />
             </LocalizationProvider>
+          </Stack>
+          <Stack>
+            <Typography sx={{ fontSize: "1.7em" }}>
+              <strong>Prix total:</strong>
+            </Typography>
+          </Stack>
+          <Stack>
+            <Typography sx={{ fontSize: "2em" }}>
+              <strong>{total} Euros</strong>
+            </Typography>
           </Stack>
           <Stack>
             {!status ? (
@@ -167,7 +227,9 @@ function Reservation({ hitmarker, setReservation, status, setStatus }) {
                 <Typography>Reserver</Typography>
               </Button>
             ) : (
-              <Typography>Votre reservation à été pris en compte </Typography>
+              <Typography sx={{ fontSize: "1.5em", textAlign: "center" }}>
+                Votre reservation à bien été pris en compte.{" "}
+              </Typography>
             )}
           </Stack>
         </Stack>
