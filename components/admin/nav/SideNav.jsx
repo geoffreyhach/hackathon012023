@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -10,19 +11,56 @@ import Paper from "@mui/material/Paper";
 import Home from "@mui/icons-material/Home";
 import People from "@mui/icons-material/People";
 import KeyIcon from "@mui/icons-material/Key";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 
 import Link from "next/link";
 
-const data = [
-  { icon: <KeyIcon />, label: "Réservations", url: "/admin/booking" },
-  { icon: <DirectionsCarIcon />, label: "Véhicules", url: "/admin/cars" },
-  { icon: <People />, label: "Utilisateurs", url: "/admin/users" },
-];
-
 const SideNav = () => {
+  const { data: session } = useSession();
   const [open, setOpen] = useState(true);
+  const [data, setData] = useState([]);
   const router = useRouter();
+  console.log(session);
+
+  // const data = ;
+
+  useEffect(() => {
+    if (session?.user?.isAdmin) {
+      setData([
+        {
+          icon: <KeyIcon />,
+          label: "Réservations",
+          url: "/admin/booking",
+        },
+        {
+          icon: <DirectionsCarIcon />,
+          label: "Véhicules",
+          url: "/admin/cars",
+        },
+        {
+          icon: <People />,
+          label: "Utilisateurs",
+          url: "/admin/users",
+        },
+      ]);
+    }
+
+    if (!session?.user?.isAdmin) {
+      setData([
+        {
+          icon: <People />,
+          label: "Mes infos personelles",
+          url: "/admin/profile",
+        },
+        {
+          icon: <AutoStoriesIcon />,
+          label: "Mes réservations",
+          url: "/admin/booking",
+        },
+      ]);
+    }
+  }, [session?.user?.isAdmin]);
 
   function handleClick() {
     setOpen(!open);
@@ -36,18 +74,20 @@ const SideNav = () => {
       }}
     >
       <Paper elevation={1} sx={{ width: 239 }}>
-        <ListItem>
-          <ListItemIcon
-            sx={{
-              display: "flex",
-              fontSize: 26,
-              pl: 0.5,
-              fontFamily: "Poppins",
-            }}
-          >
-            WILDCARS
-          </ListItemIcon>
-        </ListItem>
+        <Link href="/">
+          <ListItem>
+            <ListItemIcon
+              sx={{
+                display: "flex",
+                fontSize: 26,
+                pl: 0.5,
+                fontFamily: "Roboto Mono",
+              }}
+            >
+              WILDCARS
+            </ListItemIcon>
+          </ListItem>
+        </Link>
         <Divider />
         <ListItem component="div" disablePadding>
           <ListItemButton

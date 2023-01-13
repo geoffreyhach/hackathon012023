@@ -1,131 +1,133 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
-  DataGrid,
-  GridToolbarContainer,
-  GridToolbarExport,
+    DataGrid,
+    GridToolbarContainer,
+    GridToolbarExport,
 } from "@mui/x-data-grid";
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Typography, Box, Button, Stack } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import Dashboard from "../../components/admin/nav/Dashboard";
 import Head from "next/head";
-import dayjs from "dayjs";
 
 function CustomToolbar() {
-  return (
-    <GridToolbarContainer
-      sx={{ display: "flex", justifyContent: "space-between" }}
-    >
-      <Button onClick={() => window.location.reload()}>
-        <CachedIcon />
-        Actualiser
-      </Button>
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
+    return (
+        <GridToolbarContainer
+            sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+            <Button onClick={() => window.location.reload()}>
+                <CachedIcon />
+                Actualiser
+            </Button>
+            <GridToolbarExport />
+        </GridToolbarContainer>
+    );
 }
 
-export default function Users() {
-  const [users, setUsers] = useState([]);
+export default function Booking({ booking, cars }) {
+    const [checkboxSelection, setCheckboxSelection] = useState(true);
 
-  const [checkboxSelection, setCheckboxSelection] = useState(true);
+    const currencyFormatter = new Intl.NumberFormat("fr-FR", {
+        style: "currency",
+        currency: "EUR",
+    });
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/users")
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
-  const title = "Réservations";
+    const title = "Réservations";
 
-  return (
-    <>
-      <Head>
-        <title> Réservations | WILDCARS </title>
-      </Head>
-      <Box sx={{ display: "flex" }}>
-        <Dashboard title={title} />
+    return (
+        <>
+            <Head>
+                <title> Réservations | WILDCARS </title>
+            </Head>
+            <Box sx={{ display: "flex" }}>
+                <Dashboard title={title} />
+                <Container style={{ marginTop: "2rem" }}>
+                    <Typography variant="h4" gutterBottom>
+                        Réservations
+                    </Typography>
 
-        <Container style={{ marginTop: "2rem" }}>
-          <Typography variant="h4" gutterBottom>
-            Réservations
-          </Typography>
+                    <div
+                        style={{
+                            height: "90vh",
+                            width: "100%",
+                            backgroundColor: "#fff",
+                        }}
+                    >
+                        <DataGrid
+                            onCellClick={(e) => console.log(e)}
+                            rows={booking}
+                            getRowId={(row) => row.pk}
+                            loading={!booking}
+                            components={{
+                                Toolbar: CustomToolbar,
+                            }}
+                            // editMode="row"
+                            checkboxSelection={checkboxSelection}
+                            experimentalFeatures={{ newEditingApi: true }}
+                            columns={[
+                                {
+                                    field: "pk",
+                                    headerName: "ID",
+                                    editable: true,
+                                    flex: 0.1,
+                                },
+                                {
+                                    field: "model",
+                                    headerName: "Véhicule",
+                                    editable: true,
+                                    flex: 0.25,
+                                    valueGetter: ({ row }) => row.car_id,
+                                },
+                                {
+                                    type: "date",
+                                    field: "debut",
+                                    headerName: "Date de début",
+                                    editable: true,
+                                    flex: 0.25,
+                                    valueGetter: ({ value }) =>
+                                        value && new Date(value),
+                                },
+                                {
+                                    type: "date",
+                                    field: "fin",
+                                    headerName: "Date de fin",
+                                    editable: true,
+                                    flex: 0.2,
+                                    valueGetter: ({ value }) =>
+                                        value && new Date(value),
+                                },
+                                {
+                                    field: "amount",
+                                    headerName: "Montant",
+                                    editable: true,
+                                    flex: 0.2,
+                                    valueFormatter: ({ value }) =>
+                                        currencyFormatter.format(value),
+                                },
+                                {
+                                    type: "boolean",
+                                    defaultValue: 1,
+                                    field: "isAvailable",
+                                    headerName: "Dispo",
+                                    editable: true,
+                                    flex: 0.13,
+                                },
+                            ]}
+                        />
+                    </div>
+                </Container>
+            </Box>
+        </>
+    );
+}
 
-          <div
-            style={{ height: "90vh", width: "100%", backgroundColor: "#fff" }}
-          >
-            {console.log(users)}
-
-            <DataGrid
-              rows={users}
-              loading={!users}
-              components={{
-                Toolbar: CustomToolbar,
-              }}
-              // editMode="row"
-              checkboxSelection={checkboxSelection}
-              experimentalFeatures={{ newEditingApi: true }}
-              columns={[
-                { field: "id", headerName: "ID", editable: true, flex: 0.1 },
-                {
-                  type: "date",
-                  field: "startDate",
-                  headerName: "Début",
-                  editable: true,
-                  flex: 1,
-                  valueGetter: ({ value }) => value && new Date(value),
-                },
-                {
-                  type: "date",
-                  field: "endDate",
-                  headerName: "Fin",
-                  editable: true,
-                  flex: 1,
-                  valueGetter: ({ value }) => value && new Date(value),
-                },
-                {
-                  field: "vehicId",
-                  headerName: "Véhicule",
-                  editable: true,
-                  flex: 1.5,
-                },
-                {
-                  field: "userId",
-                  headerName: "Utilisateur",
-                  editable: true,
-                  flex: 1.5,
-                },
-                {
-                  type: "price",
-                  field: "price",
-                  headerName: "Montant",
-                  editable: true,
-                  flex: 0.16,
-                  valueFormatter: ({ value }) =>
-                    currencyFormatter.format(value),
-                },
-                {
-                  type: "date",
-                  field: "dayOfBirth",
-                  headerName: "Date de naissance",
-                  editable: true,
-                  flex: 1,
-                  valueGetter: ({ value }) => value && new Date(value),
-                },
-                {
-                  type: "boolean",
-                  field: "isPremium",
-                  headerName: "Premium",
-                  editable: true,
-                  flex: 0.6,
-                },
-              ]}
-            />
-          </div>
-        </Container>
-      </Box>
-    </>
-  );
+export async function getServerSideProps() {
+    const dbHost = process.env.DB_HOST;
+    const res = await axios.get(`http://localhost:3000/api/booking`);
+    const booking = res.data.Items;
+    return {
+        props: {
+            booking,
+        },
+    };
 }

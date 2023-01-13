@@ -35,5 +35,12 @@ export const authOptions = {
     adapter: DynamoDBAdapter(client, {
         tableName: "users",
     }),
+    callbacks: {
+        async session({ session, token, user }) {
+            session.user.isAdmin = user.isAdmin;
+            session.user.id = user.id;
+            return session;
+        },
+    },
 };
 export default NextAuth(authOptions);
