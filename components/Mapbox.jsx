@@ -14,7 +14,7 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
     const [viewState, setViewState] = useState({
         latitude: 48.582033,
         longitude: 7.750229,
-        zoom: 12,
+        zoom: 13,
     });
 
     function MarkerClick(car) {
@@ -42,7 +42,7 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
             setViewState({
                 latitude: geoloc.coords.latitude,
                 longitude: geoloc.coords.longitude,
-                zoom: 12,
+                zoom: 13,
             });
     }, [geoloc]);
 
@@ -77,6 +77,8 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
             mapboxAccessToken={accessToken}
             initialViewState={viewState}
             onMove={(evt) => setViewState(evt.viewState)}
+            pitch={60}
+            // bearing={-60}
             style={{
                 width: "100%",
                 height: "100vh",
