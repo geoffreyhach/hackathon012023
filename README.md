@@ -1,6 +1,14 @@
 # WILDCARS
 
-Projet de Cédric, Yann et Geoffrey pour le Hackathon de la wild code school/AWS de janvier 2023
+## Projet de Cédric, Yann et Geoffrey pour le Hackathon de la wild code school/AWS de janvier 2023
+
+### **Cédric Pierson** : [Linkedin](https://www.linkedin.com/in/cedricpierson01/) / [Portfolio](https://portfolio-nextjs-git-dev-cedricpierson.vercel.app/)
+
+### **Yann Fitsch** : [Linkedin](https://www.linkedin.com/in/yannfitsch/)
+
+### **Geoffrey Hach** : [Linkedin](https://www.linkedin.com/in/hachgeoffrey/) / [geoffreyhach.fr](https://www.geoffreyhach.fr/)
+
+--
 
 ## **Cars**
 
