@@ -81,7 +81,7 @@ const SideNav = () => {
                 display: "flex",
                 fontSize: 26,
                 pl: 0.5,
-                fontFamily: "Poppins",
+                fontFamily: "Roboto Mono",
               }}
             >
               WILDCARS
