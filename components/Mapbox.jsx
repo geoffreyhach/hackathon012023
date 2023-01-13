@@ -49,7 +49,7 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
     const getVehicleIcon = (category, id) => {
         const style = {
             color: id === hitmarker ? "red" : "primary.main",
-            fontSize: id === hitmarker ? "38px" : "24px",
+            fontSize: id === hitmarker ? "48px" : "32px",
             transition: "font-size 500ms",
         };
         if (category === "citadine") {
