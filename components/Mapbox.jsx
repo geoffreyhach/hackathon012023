@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Map, { Marker } from "react-map-gl";
-import PersonPinCircleTwoToneIcon from "@mui/icons-material/PersonPinCircleTwoTone";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import SnowmobileIcon from "@mui/icons-material/Snowmobile";
+import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
+import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
 
 function Mapbox({ fleet, setHitmarker, hitmarker }) {
     const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
@@ -55,6 +57,15 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
         }
         if (category === "utilitaire") {
             return <LocalShippingIcon sx={style} />;
+        }
+        if (category === "snowmobile") {
+            return <SnowmobileIcon sx={style} />;
+        }
+        if (category === "boat") {
+            return <DirectionsBoatIcon sx={style} />;
+        }
+        if (category === "moto") {
+            return <TwoWheelerIcon sx={style} />;
         }
 
         return <DirectionsCarFilledIcon sx={style} />;
