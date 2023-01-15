@@ -123,7 +123,7 @@ export default function Booking({ booking, cars }) {
 
 export async function getServerSideProps() {
     const dbHost = process.env.DB_HOST;
-    const res = await axios.get(`http://localhost:3000/api/booking`);
+    const res = await axios.get(`/api/booking`);
     const booking = res.data.Items;
     return {
         props: {

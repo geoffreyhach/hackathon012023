@@ -29,7 +29,7 @@ function Header() {
                     color: "lightgrey",
                 }}
             >
-                <Image src={logo} width={50} height={50} />
+                <Image src={logo} width={50} height={50} alt="logo" />
                 WILDCARS
             </Stack>
             <Box sx={{ display: "flex", gap: "5px" }}>

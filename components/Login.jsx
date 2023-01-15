@@ -23,37 +23,32 @@ function Login() {
                         </Button>
 
                         {!session?.user.isAdmin && (
-                            <Link href="admin">
-                                <Button variant="contained">
-                                    <Avatar
-                                        alt={session.user.name}
-                                        src={session.user.image}
-                                        sx={{
-                                            width: 24,
-                                            height: 24,
-                                            marginRight: 2,
-                                        }}
-                                    />
-                                    Mon compte
-                                </Button>
-                            </Link>
+                            <Button variant="contained">
+                                <Avatar
+                                    alt={session.user.name}
+                                    src={session.user.image}
+                                    sx={{
+                                        width: 24,
+                                        height: 24,
+                                        marginRight: 2,
+                                    }}
+                                />
+                                Mon compte
+                            </Button>
                         )}
                         {session?.user.isAdmin && (
-                            <Link href="admin">
-                                {" "}
-                                <Button variant="contained">
-                                    <Avatar
-                                        alt={session.user.name}
-                                        src={session.user.image}
-                                        sx={{
-                                            width: 24,
-                                            height: 24,
-                                            marginRight: 2,
-                                        }}
-                                    />
-                                    Espace Admin
-                                </Button>
-                            </Link>
+                            <Button variant="contained" disabled>
+                                <Avatar
+                                    alt={session.user.name}
+                                    src={session.user.image}
+                                    sx={{
+                                        width: 24,
+                                        height: 24,
+                                        marginRight: 2,
+                                    }}
+                                />
+                                Espace Admin
+                            </Button>
                         )}
                     </Stack>
                 </Stack>

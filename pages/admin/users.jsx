@@ -28,11 +28,10 @@ function CustomToolbar() {
 export default function Users() {
     const [users, setUsers] = useState([]);
     const [checkboxSelection, setCheckboxSelection] = useState(true);
-    const ENDPOINT = process.env.NEXT_PUBLIC_DB_HOST;
 
     useEffect(() => {
         axios
-            .get(`${ENDPOINT}/api/users`)
+            .get(`/api/users`)
             .then((res) => {
                 setUsers(res.data);
             })
@@ -43,19 +42,17 @@ export default function Users() {
     const handleIsAdmin = (e) => {
         console.log(ENDPOINT);
         if (e.field === "isAdmin" && e.row.isAdmin === 0) {
-            console.log(e);
-            axios.put(`${ENDPOINT}/api/users/${e.row.id}`, { isAdmin: 1 });
+            axios.put(`/api/users/${e.row.id}`, { isAdmin: 1 });
             updateData();
         }
         if (e.field === "isAdmin" && e.row.isAdmin === 1) {
-            console.log(e);
-            axios.put(`${ENDPOINT}/api/users/${e.row.id}`, { isAdmin: 0 });
+            axios.put(`/api/users/${e.row.id}`, { isAdmin: 0 });
             updateData();
         }
     };
 
     const updateData = async () => {
-        const updatedData = await axios.get(`${ENDPOINT}/api/users`);
+        const updatedData = await axios.get(`/api/users`);
         console.log(updatedData.data);
         setUsers(updateData.data);
     };

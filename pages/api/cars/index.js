@@ -1,22 +1,28 @@
-import dynamoClient from "../db";
-import { v4 as uuidv4 } from "uuid";
+import connectDB from "../db";
+import { Car } from "../models";
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     if (req.method === "GET") {
-        const params = {
-            TableName: "car",
-        };
-        const cars = await dynamoClient.scan(params).promise();
-        res.status(200).json(cars);
+        //Todo
+        const cars = await Car.find();
+
+        try {
+            res.status(200).json(cars);
+        } catch {
+            res.status(500).send(error);
+        }
     }
     if (req.method === "POST") {
-        req.body.id = String(uuidv4());
+        const { model, brand } = req.body;
 
-        const params = {
-            TableName: "car",
-            Item: req.body,
-        };
-        const car = await dynamoClient.put(params).promise();
-        res.status(200).json(car);
+        const car = new Car({
+            model,
+            brand,
+        });
+        const newCar = await car.save();
+
+        res.status(200).json(newCar);
     }
 }
+
+export default connectDB(handler);

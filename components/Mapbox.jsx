@@ -19,9 +19,9 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
 
     function MarkerClick(car) {
         if (marker !== hitmarker && marker !== undefined) {
-            return setMarker(car.id);
+            return setMarker(car._id);
         } else {
-            return setMarker(car.id);
+            return setMarker(car._id);
         }
     }
 
@@ -98,13 +98,13 @@ function Mapbox({ fleet, setHitmarker, hitmarker }) {
                 fleet.map((car) => {
                     return (
                         <Marker
-                            key={car.id}
+                            key={car._id}
                             latitude={car.geoloc[0] || -31.721915}
                             longitude={car.geoloc[1] || -48.263998}
                             anchor={"center"}
                             onClick={() => MarkerClick(car)}
                         >
-                            {getVehicleIcon(car.category, car.id)}
+                            {getVehicleIcon(car.category, car._id)}
                         </Marker>
                     );
                 })}

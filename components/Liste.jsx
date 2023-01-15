@@ -30,238 +30,9 @@ function Liste({
     }
 
     function MarkerClick(car) {
-        setHitmarker(car.id);
+        setHitmarker(car._id);
     }
-    if (session) {
-        return (
-            <Stack
-                sx={{
-                    overflow: { md: "hidden" },
-                    overflowY: { md: "auto" },
-                    marginTop: "25px",
-                    marginBottom: "25px",
-                }}
-                style={{ scrollbarWidth: "none" }}
-            >
-                <Box
-                    sx={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                        gap: "10px",
-                    }}
-                >
-                    {fleet.map((car, index) => (
-                        <Card
-                            key={index}
-                            sx={{
-                                height: { sm: "27vh", md: "25vh" },
-                                width: "90%",
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                borderRadius: "10px",
-                                backgroundColor: "#EAEDED",
-                                opacity: car.id === hitmarker ? "1" : ".6",
-                                border:
-                                    car.id === hitmarker
-                                        ? "5px solid #d4d4b5"
-                                        : "1px solid #d4d4b5",
-                                "&:hover": {
-                                    opacity: "1",
-                                },
-                            }}
-                            onClick={() => MarkerClick(car)}
-                        >
-                            <CardMedia
-                                component="img"
-                                sx={{
-                                    height: "auto",
-                                    width: "50%",
-                                }}
-                                image={car.image}
-                            />
-                            <CardContent
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignContent: "center",
-                                    justifyContent: "center",
-                                    width: {
-                                        xs: "40vw",
-                                        sm: "40vw",
-                                        md: "18vw",
-                                    },
-                                    overflow: { md: "hidden" },
-                                    overflowY: { md: "auto" },
 
-                                    marginTop: "25px",
-                                    marginBottom: "25px",
-                                }}
-                            >
-                                <Stack
-                                    sx={{
-                                        paddingBottom: {
-                                            sm: "5px",
-                                            md: "15px",
-                                        },
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            textAlign: "center",
-                                            fontSize: {
-                                                xs: "1em",
-                                                lg: "1.5em",
-                                            },
-                                            marginBottom: {
-                                                xs: "10px",
-                                                lg: "20px",
-                                            },
-                                        }}
-                                    >
-                                        <strong>
-                                            {car.brand} {car.model}
-                                        </strong>
-                                    </Typography>
-                                </Stack>
-                                <Stack
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "space-around",
-                                        gap: "10px",
-                                    }}
-                                >
-                                    <Stack>
-                                        <Typography
-                                            sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "10px",
-                                                fontSize: "1em",
-                                            }}
-                                        >
-                                            <PeopleIcon
-                                                sx={{
-                                                    fontSize: {
-                                                        xs: "small",
-                                                        sm: "medium",
-                                                    },
-                                                }}
-                                            />
-                                            {car.passengers}
-                                        </Typography>
-                                        <Typography
-                                            sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "10px",
-                                                fontSize: "1em",
-                                            }}
-                                        >
-                                            <MeetingRoomIcon
-                                                sx={{
-                                                    fontSize: {
-                                                        xs: "small",
-                                                        sm: "medium",
-                                                    },
-                                                }}
-                                            />
-                                            {car.doors}
-                                        </Typography>
-                                    </Stack>
-                                    <Stack>
-                                        <Typography
-                                            sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "10px",
-                                                fontSize: "1em",
-                                            }}
-                                        >
-                                            <AlignVerticalCenterIcon
-                                                sx={{
-                                                    fontSize: {
-                                                        xs: "small",
-                                                        sm: "medium",
-                                                    },
-                                                }}
-                                            />
-                                            {car.transmission}
-                                        </Typography>
-                                        <Typography
-                                            sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "10px",
-                                                fontSize: "1em",
-                                            }}
-                                        >
-                                            <AvTimerIcon
-                                                sx={{
-                                                    fontSize: {
-                                                        xs: "small",
-                                                        sm: "medium",
-                                                    },
-                                                }}
-                                            />
-                                            {car.consumption}L/100km
-                                        </Typography>
-                                    </Stack>
-                                </Stack>
-                                <Stack
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        justifyContent: "space-around",
-                                        paddingBottom: "20px",
-                                        paddingTop: "20px",
-                                        gap: "5px",
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: "10px",
-                                            fontSize: {
-                                                xs: "1em",
-                                                sm: "1.5em",
-                                            },
-                                        }}
-                                    >
-                                        <strong>
-                                            {" "}
-                                            {car.priceperday} euros/jour{" "}
-                                        </strong>
-                                    </Typography>
-
-                                    <Button
-                                        variant="outlined"
-                                        sx={{
-                                            width: {
-                                                xs: "35vw",
-                                                md: "15vw",
-                                                lg: "10vw",
-                                            },
-                                        }}
-                                        onClick={() => takeReservation(car)}
-                                    >
-                                        <Typography>Reserver</Typography>
-                                    </Button>
-                                </Stack>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </Box>
-            </Stack>
-        );
-    }
     return (
         <Stack
             sx={{
@@ -310,8 +81,10 @@ function Liste({
                             sx={{
                                 height: "auto",
                                 width: "50%",
+                                mixBlendMode: "multiply",
                             }}
                             image={car.image}
+                            alt="car"
                         />
                         <CardContent
                             sx={{
@@ -465,10 +238,25 @@ function Liste({
                                     }}
                                 >
                                     <strong>
-                                        {" "}
                                         {car.priceperday} euros/jour{" "}
                                     </strong>
                                 </Typography>
+
+                                {session && (
+                                    <Button
+                                        variant="outlined"
+                                        sx={{
+                                            width: {
+                                                xs: "35vw",
+                                                md: "15vw",
+                                                lg: "10vw",
+                                            },
+                                        }}
+                                        onClick={() => takeReservation(car)}
+                                    >
+                                        <Typography>Reserver</Typography>
+                                    </Button>
+                                )}
                             </Stack>
                         </CardContent>
                     </Card>

@@ -1,12 +1,18 @@
-import AWS from "aws-sdk";
+import mongoose, { mongo } from "mongoose";
 
-AWS.config.update({
-    region: process.env.AWS_DEFAULT_REGION,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    sessionToken: process.env.AWS_SESSION_TOKEN,
-});
+const url = process.env.NEXT_PUBLIC_MONGO_DB;
 
-const dynamoClient = new AWS.DynamoDB.DocumentClient();
+const connectDB = (handler) => async (req, res) => {
+    if (mongoose.connections[0].readyState) {
+        // Use current db connection
+        return handler(req, res);
+    }
+    // Use new db connection
+    await mongoose.connect(url, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+    });
+    return handler(req, res);
+};
 
-export default dynamoClient;
+export default connectDB;
