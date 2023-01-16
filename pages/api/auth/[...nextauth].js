@@ -13,13 +13,13 @@ export const authOptions = {
         // ...add more providers here
     ],
     adapter: MongoDBAdapter(clientPromise),
-    // callbacks: {
-    //     async session({ session, token, user }) {
-    //         session.user.isAdmin = user.isAdmin;
-    //         session.user.id = user._id;
-    //         return session;
-    //     },
-    // },
+    callbacks: {
+        async session({ session, token, users }) {
+            session.user.isAdmin = users.isAdmin;
+            session.user.id = users._id;
+            return session;
+        },
+    },
     secret: process.env.NEXT_PUBLIC_SECRET,
 };
 export default NextAuth(authOptions);
