@@ -6,24 +6,11 @@ import {
     GridToolbarExport,
 } from "@mui/x-data-grid";
 import { Container, Typography, Box, Button } from "@mui/material";
-import CachedIcon from "@mui/icons-material/Cached";
+
 import Dashboard from "../../components/admin/nav/Dashboard";
 import Head from "next/head";
 import dayjs from "dayjs";
-
-function CustomToolbar() {
-    return (
-        <GridToolbarContainer
-            sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-            <Button onClick={() => window.location.reload()}>
-                <CachedIcon />
-                Actualiser
-            </Button>
-            <GridToolbarExport />
-        </GridToolbarContainer>
-    );
-}
+import CustomToolbar from "../../components/admin/dashboard/CustomToolbar";
 
 export default function Users() {
     const [users, setUsers] = useState([]);
@@ -40,7 +27,6 @@ export default function Users() {
     const title = "Utilisateurs";
 
     const handleIsAdmin = (e) => {
-        console.log(ENDPOINT);
         if (e.field === "isAdmin" && e.row.isAdmin === 0) {
             axios.put(`/api/users/${e.row.id}`, { isAdmin: 1 });
             updateData();
