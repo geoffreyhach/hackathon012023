@@ -14,9 +14,9 @@ export const authOptions = {
     ],
     adapter: MongoDBAdapter(clientPromise),
     callbacks: {
-        async session({ session, token, users }) {
-            session.user.isAdmin = users.isAdmin;
-            session.user.id = users._id;
+        async session({ session, token, user }) {
+            session.user.isAdmin = user.isAdmin;
+            session.user.id = user._id;
             return session;
         },
     },
