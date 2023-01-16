@@ -33,11 +33,11 @@ function Recherche({ fleet }) {
                         margin: "auto",
                     }}
                 >
-                    {/* <Mapbox
+                    <Mapbox
                         fleet={fleet}
                         hitmarker={hitmarker}
                         setHitmarker={setHitmarker}
-                    /> */}
+                    />
                 </Stack>
                 <Stack
                     sx={{
