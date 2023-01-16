@@ -7,10 +7,8 @@ import Header from "../components/Header";
 import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
-const ENDPOINT = process.env.DB_HOST;
 
 export default function Home({ fleet }) {
-    console.log(fleet);
     return (
         <>
             <Head>
@@ -42,7 +40,7 @@ export default function Home({ fleet }) {
     );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const res = await axios.get(`/api/cars`);
 
     const fleet = res.data;
