@@ -20,6 +20,6 @@ export const authOptions = {
             return session;
         },
     },
-    secret: "sdhfgldfkhjbgd",
+    secret: process.env.NEXT_PUBLIC_SECRET,
 };
 export default NextAuth(authOptions);
