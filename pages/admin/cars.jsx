@@ -207,7 +207,6 @@ export default function Cars({ fleet }) {
 }
 
 export async function getServerSideProps() {
-    const dbHost = process.env.DB_HOST;
     const res = await axios.get(`/api/cars`);
     const fleet = res.data.Items;
     return {
